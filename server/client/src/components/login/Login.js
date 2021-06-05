@@ -17,6 +17,8 @@ import apiAxios from "../../config/axiosConfig";
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const [showFailedLogin, setShowFailedLogin] = useState(false);
   const [loginMsg, setLoginMsg] = useState("");
 
   const userStatus = useSelector(selectCurrentUserStatus);
@@ -40,8 +42,9 @@ const Login = () => {
     } catch (error) {
       const errorMsg = error.response.data.error
         ? error.response.data.error.message
-        : "An error occurred.";
+        : "An error occurred while checking credentials.";
       setLoginMsg(errorMsg);
+      setShowFailedLogin(true);
     }
   };
 
@@ -73,6 +76,13 @@ const Login = () => {
   return (
     <>
       <h1 style={{ textAlign: "center" }}>Sign in required</h1>
+      {showFailedLogin ? (
+        <p style={{ textAlign: "center", color: "red" }}>
+          Invalid Email & Password
+        </p>
+      ) : (
+        <p></p>
+      )}
       <div className="loginForm">
         <Form name="basic" onFinish={onFinish}>
           <Form.Item
@@ -82,7 +92,8 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your username!",
+                type: "email",
+                message: "The input is not valid E-mail!",
               },
             ]}
           >

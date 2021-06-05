@@ -58,6 +58,7 @@ const loginUser = async (req, res, next) => {
   // Not error then authenticate 
   passport.authenticate("login", async (err, user, info) => {
     if (err || !user) {
+      // send error message ( config in passportjs) to Frontend
       const error = new Error(info.message);
       return next(error);
     }
