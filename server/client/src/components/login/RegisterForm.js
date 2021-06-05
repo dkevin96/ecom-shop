@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "antd/dist/antd.css";
 
+
 import {
   Form,
   Input,
@@ -120,11 +121,10 @@ const RegisterForm = (props) => {
 
   return (
     <>
-      <div style={{ textAlign: "center" }}>
+      <div style={{ textAlign: "center" }} className="hi">
         <Space direction="vertical">
-          <Title level={2} style={{ textAlign: "center" }}>
-            {" "}
-            Register{" "}
+          <Title level={2} style={{ textAlign: "center" }} >
+            Register
           </Title>
         </Space>
       </div>

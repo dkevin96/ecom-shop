@@ -6,7 +6,7 @@ import RegisterSuccess from "./RegisterSuccess";
 import RegisterForm from "./RegisterForm";
 
 const Register = () => {
-  const [formIsSubmitted, setformIsSubmitted] = useState(false);
+  const [formIsSubmitted, setformIsSubmitted] = useState();
 
   const submitSucess = () => {
     setformIsSubmitted(true);

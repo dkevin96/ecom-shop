@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import { Card, Col, Row, Button, Divider, notification } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
+
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
 
