@@ -10,6 +10,7 @@ require('./config/passport')
 const app = express();
 
 app.use(cors({ origin: true, credentials: true })); //allow cross-origin resource sharing FROM origin ONLY, and accept credentials
+
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
