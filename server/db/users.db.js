@@ -100,9 +100,10 @@ const modifyUserDb = async ({
 };
 
 //Keep user record in db for record-keeping but set active = false
+//UPDATE users SET active = false WHERE id = $1
 const removeUserDb = async (id) => {
   const res = await pool.query(
-    "UPDATE users SET active = false WHERE id = $1",
+    "DELETE FROM users WHERE id=$1",
     [id]
   );
   return res.rows;
