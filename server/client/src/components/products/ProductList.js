@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react'
 import ProductCard from './ProductCard'
+import ProductCard_antd from "./ProductCard_antd"
 import { useDispatch, useSelector } from 'react-redux'
 import {  selectAllProducts, selectFetchAllProductsStatus } from '../../features/products/productsSlice'
 // import { needsCheckoutRedirectUpdated } from '../../features/cart/cartSlice'
 import ReactPaginate from 'react-paginate'
 import './Pagination.css'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
+import { Layout, Row, Divider } from 'antd';
+
 import { useHistory, useParams } from 'react-router-dom'
 
 const ProductList = () => {
@@ -28,7 +32,7 @@ const ProductList = () => {
   useEffect(() => {
     const slice = Object.keys(products).slice(productOffset, productOffset + perPage)
     const postData = slice.map(keyName =>
-            <ProductCard
+            <ProductCard_antd
               key={products[keyName].id}
               product={products[keyName]} />)
     setData(postData)
@@ -55,7 +59,9 @@ const ProductList = () => {
               <div className="flex flex-grow flex-col">
                 <div className="flex-grow">
                   <div className="p-4 flex flex-wrap justify-center max-w-screen-2xl mx-auto">
+                  <Row justify='start' gutter={[40, 24]} className='products-row'>
                     {data}
+                    </Row>
                   </div>
                 </div>
                 <div className="p-4 flex justify-center mx-auto">
