@@ -66,7 +66,7 @@ ALTER TABLE "order_products" ADD FOREIGN KEY ("product_id") REFERENCES "products
 
 ALTER TABLE "orders" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "carts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+ALTER TABLE "carts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") on DELETE CASCADE;
 
 ALTER TABLE "cart_products" ADD FOREIGN KEY ("cart_id") REFERENCES "carts" ("id");
 
@@ -76,9 +76,19 @@ ALTER TABLE cart_products ADD PRIMARY KEY (cart_id, product_id);
 
 ALTER TABLE order_products ADD PRIMARY KEY (order_id, product_id);
 
-ALTER TABLE carts 
-    ADD CONSTRAINT dele
-	FOREIGN KEY (user_id)
-        REFERENCES "users" ("id")
-        ON UPDATE NO ACTION
-        ON DELETE CASCADE
+
+-- ALTER SEQUENCE users_id_seq RESTART WITH 1;
+
+/*
+If you want to udpdate constraint on cascade. Follow these Step
+1. alter table carts 
+drop constraint ..._fkey (find in pgadmin sql);
+
+2. 
+alter table carts
+add constraint carts_user_id_fkey
+foreign key (user_id)
+references users (id)
+on delete cascade;
+
+*/
