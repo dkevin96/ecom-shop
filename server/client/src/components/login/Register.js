@@ -14,6 +14,15 @@ const Register = () => {
 
   return (
     <>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <img
+        width={600}
+          preview={{
+            visible: false,
+          }}
+          src="https://image.freepik.com/free-vector/job-interview-conversation_74855-7566.jpg"
+        />
+      </div>
       {formIsSubmitted ? (
         <RegisterSuccess />
       ) : (
@@ -23,4 +32,4 @@ const Register = () => {
   );
 };
 
-export default Register
+export default Register;

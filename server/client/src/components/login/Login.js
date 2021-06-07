@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Image, Row } from "antd";
 
 import {
   fetchCurrentUser,
@@ -13,6 +13,38 @@ import {
   selectCurrentUserStatus,
 } from "../../features/users/usersSlice";
 import apiAxios from "../../config/axiosConfig";
+
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 8,
+    },
+  },
+  wrapperCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 16,
+    },
+  },
+};
+
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 7,
+    },
+  },
+};
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -75,7 +107,16 @@ const Login = () => {
 
   return (
     <>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <img
+          preview={{
+            visible: false,
+          }}
+          src="https://image.freepik.com/free-vector/job-interview-conversation_74855-7566.jpg"
+        />
+      </div>
       <h1 style={{ textAlign: "center" }}>Sign in required</h1>
+      <a href="https://www.freepik.com/vectors/computer"></a>
       {showFailedLogin ? (
         <p style={{ textAlign: "center", color: "red" }}>
           Invalid Email & Password
@@ -83,8 +124,14 @@ const Login = () => {
       ) : (
         <p></p>
       )}
+
       <div className="loginForm">
-        <Form name="basic" onFinish={onFinish}>
+        <Form
+          {...formItemLayout}
+          name="basic"
+          onFinish={onFinish}
+          style={{ width: "80%", textAlign: "center", paddingLeft: 30 }}
+        >
           <Form.Item
             label="Email"
             name="email"
@@ -113,9 +160,9 @@ const Login = () => {
             <Input.Password />
           </Form.Item>
 
-          <Form.Item style={{ textAlign: "center" }}>
-            <Button type="primary" htmlType="submit">
-              Submit
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit" size="large" width={100} >
+                Submit
             </Button>
           </Form.Item>
           <p className="text-gray-700 font-medium text-base text-center">

@@ -3,7 +3,6 @@ import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "antd/dist/antd.css";
 
-
 import {
   Form,
   Input,
@@ -66,7 +65,7 @@ const RegisterForm = (props) => {
   const [isLoginDone, setIsLoginDone] = useState(false);
   const userStatus = useSelector(selectCurrentUserStatus);
 
-    // props.onSubmit();
+  // props.onSubmit();
 
   const onFinish = async (data) => {
     try {
@@ -123,13 +122,14 @@ const RegisterForm = (props) => {
     <>
       <div style={{ textAlign: "center" }} className="hi">
         <Space direction="vertical">
-          <Title level={2} style={{ textAlign: "center" }} >
+          <Title level={2} style={{ textAlign: "center" }}>
             Register
           </Title>
         </Space>
       </div>
-      <br/>
+      <br />
       <Form
+        style={{ width: "80%", textAlign: "center", paddingLeft: 30 }}
         {...formItemLayout}
         form={form}
         name="register"
