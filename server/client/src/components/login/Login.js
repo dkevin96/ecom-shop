@@ -118,19 +118,17 @@ const Login = () => {
       <h1 style={{ textAlign: "center" }}>Sign in required</h1>
       <a href="https://www.freepik.com/vectors/computer"></a>
       {showFailedLogin ? (
-        <p style={{ textAlign: "center", color: "red" }}>
+        <p style={{ color: "red" }}>
           Invalid Email & Password
         </p>
       ) : (
         <p></p>
       )}
 
-      <div className="loginForm">
+      <div className="loginForm" style={{textAlign: "center"}}>
         <Form
-          {...formItemLayout}
           name="basic"
           onFinish={onFinish}
-          style={{ width: "80%", textAlign: "center", paddingLeft: 30 }}
         >
           <Form.Item
             label="Email"
@@ -160,7 +158,7 @@ const Login = () => {
             <Input.Password />
           </Form.Item>
 
-          <Form.Item {...tailFormItemLayout}>
+          <Form.Item>
             <Button type="primary" htmlType="submit" size="large" width={100} >
                 Submit
             </Button>
