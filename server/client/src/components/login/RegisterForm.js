@@ -120,7 +120,7 @@ const RegisterForm = (props) => {
 
   return (
     <>
-      <div style={{ textAlign: "center" }} className="hi">
+      <div style={{ textAlign: "center" }}>
         <Space direction="vertical">
           <Title level={2} style={{ textAlign: "center" }}>
             Register

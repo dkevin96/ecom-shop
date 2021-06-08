@@ -36,6 +36,7 @@ export const usersSlice = createSlice({
     [fetchCurrentUser.fulfilled]: (state, action) => {
       state.currentUserStatus = "succeeded";
       state.currentUser = action.payload;
+      console.log(state.currentUser);
     },
     [fetchCurrentUser.rejected]: (state, action) => {
       state.currentUserStatus = "failed";
