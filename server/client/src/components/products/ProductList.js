@@ -59,7 +59,7 @@ const ProductList = () => {
               <div className="flex flex-grow flex-col">
                 <div className="flex-grow">
                   <div className="p-4 flex flex-wrap justify-center max-w-screen-2xl mx-auto">
-                  <Row justify='start' gutter={[40, 24]} className='products-row'>
+                  <Row justify='center' gutter={[40, 24]} >
                     {data}
                     </Row>
                   </div>

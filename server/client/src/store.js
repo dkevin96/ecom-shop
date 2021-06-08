@@ -19,10 +19,12 @@ const persistConfig = {
   storage,
 };
 
+const persistedUserReducer = persistReducer(persistConfig, usersReducer)
+
 export default configureStore({
   reducer: {
     products: productsReducer,
-    users: usersReducer,
+    users: persistedUserReducer,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: {

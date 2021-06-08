@@ -37,11 +37,11 @@ const tailFormItemLayout = {
   wrapperCol: {
     xs: {
       span: 24,
-      offset: 0,
+      offset: 7,
     },
     sm: {
       span: 16,
-      offset: 7,
+      offset: 8,
     },
   },
 };
@@ -68,6 +68,8 @@ const Login = () => {
       );
       if (response.status === 200) {
         dispatch(fetchCurrentUser());
+        dispatch(isLoggedInUpdated(true));
+        history.push("/");
         // dispatch(fetchCurrentCart(cartContents));
         // dispatch(fetchCustomerOrders());
       }
@@ -81,23 +83,25 @@ const Login = () => {
   };
 
   //When user data/cart/orders are fetched, update login status
-  useEffect(() => {
-    if (
-      userStatus === "succeeded"
-      //  && fetchCurrentCartStatus === "succeeded" &&
-      //   fetchCustomerOrdersStatus === "succeeded"
-    ) {
-      dispatch(isLoggedInUpdated(true));
-    }
-  }, [userStatus, dispatch]);
+  // useEffect(() => {
+  //   if (
+  //     userStatus === "succeeded"
+  //     //  && fetchCurrentCartStatus === "succeeded" &&
+  //     //   fetchCustomerOrdersStatus === "succeeded"
+  //   ) {
+  //     console.log('userstatus succeeded');
+  //     dispatch(isLoggedInUpdated(true));
+  //   }
+  // }, [userStatus]);
 
-  //When login data is fetched, redirect to main site or checkout
-  useEffect(() => {
-    if (userStatus === "succeeded" && isLoggedIn) {
-      //Check if we need to redirect back to checkout process
-      history.push("/");
-    }
-  }, [userStatus, dispatch, history, isLoggedIn]);
+  // //When login data is fetched, redirect to main site or checkout
+  // useEffect(() => {
+  //   if (userStatus === "succeeded" && isLoggedIn) {
+  //     //Check if we need to redirect back to checkout process
+  //     console.log('userstatus succeeded and isloggin')
+  //     history.push("/");
+  //   }
+  // }, [userStatus, isLoggedIn]);
 
   useEffect(() => {
     if (userStatus === "failed") {
@@ -118,17 +122,17 @@ const Login = () => {
       <h1 style={{ textAlign: "center" }}>Sign in required</h1>
       <a href="https://www.freepik.com/vectors/computer"></a>
       {showFailedLogin ? (
-        <p style={{ color: "red" }}>
-          Invalid Email & Password
-        </p>
+        <p style={{ color: "red" }}>Invalid Email & Password</p>
       ) : (
         <p></p>
       )}
 
-      <div className="loginForm" style={{textAlign: "center"}}>
+      <div className="loginForm" style={{ textAlign: "center" }}>
         <Form
+          style={{ width: "75%", textAlign: "center" }}
           name="basic"
           onFinish={onFinish}
+          {...formItemLayout}
         >
           <Form.Item
             label="Email"
@@ -158,9 +162,9 @@ const Login = () => {
             <Input.Password />
           </Form.Item>
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit" size="large" width={100} >
-                Submit
+          <Form.Item {...tailFormItemLayout} >
+            <Button type="primary" htmlType="submit" size="large" width={100}>
+              Submit
             </Button>
           </Form.Item>
           <p className="text-gray-700 font-medium text-base text-center">
