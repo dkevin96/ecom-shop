@@ -33,9 +33,25 @@ const createCart = async (userId) => {
 const removeCart = async (userId) => {
   return await removeCartDb(userId);
 };
+
+const createProductInCart = async (cartProduct) => {
+  return await createProductInCartDb(cartProduct);
+};
+
+const modifyCart = async (updateCartProduct) => {
+  return await modifyCartDb(updateCartProduct);
+};
+
+const removeCartProduct = async (cartProduct) => {
+  return await removeCartProductDb(cartProduct);
+};
+
 module.exports = {
   createCart,
   fetchCarts,
   fetchCartById,
   removeCart,
+  createProductInCart,
+  modifyCart,
+  removeCartProduct,
 };
