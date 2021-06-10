@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
+import { Toaster } from "react-hot-toast";
 import RegisterSuccess from "./RegisterSuccess";
 import RegisterForm from "./RegisterForm";
 
@@ -14,9 +15,10 @@ const Register = () => {
 
   return (
     <>
+      <Toaster position="top-right" />
       <div style={{ display: "flex", justifyContent: "center" }}>
         <img
-        width={600}
+          width={600}
           preview={{
             visible: false,
           }}

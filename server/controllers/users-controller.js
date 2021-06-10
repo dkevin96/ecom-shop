@@ -8,7 +8,7 @@ const { removeCart, fetchCartById } = cartsService;
 
 const getAllUsers = async (req, res, next) => {
   const users = await fetchAllUsers();
-  res.status(200).json({ users: users });
+  res.status(200).json(users);
   next();
 };
 

@@ -1,0 +1,46 @@
+Postman test
+
+login
+{
+"email": "admin@gmail.com",
+"password": "password"
+}
+
+syncCart
+{
+    "cart": {
+        "15": {
+            "quantity": 2
+        }
+    }
+}
+
+createprodcut
+{
+    "product_id": 13,
+    "quantity": 2
+}
+
+// SQL COMMAND
+alter table carts 
+drop constraint dele;
+
+carts_user_id_fkey
+
+alter table orders
+add constraint user_id_fkey
+foreign key (user_id)
+references users (id)
+on delete cascade;
+
+alter table carts
+add constraint carts_user_id_fkey
+foreign key (user_id)
+references users (id)
+on delete cascade;
+
+
+ALTER SEQUENCE users_id_seq RESTART WITH 2;
+
+INSERT INTO users(email)
+VALUES ('kevin');

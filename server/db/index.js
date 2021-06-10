@@ -16,8 +16,11 @@ const {
 // const { fetchOrdersDb, fetchOrderByIdDb, fetchOrdersByUserDb, createOrderDb, createProductInOrderDb } = require('./orders.db')
 const {
   fetchCartsDb,
-  createCartDb,
   fetchCartByIdDb,
+  createCartDb,
+  createProductInCartDb,
+  modifyCartDb,
+  removeCartProductDb,
   removeCartDb,
 } = require("./carts.db");
 
@@ -37,6 +40,9 @@ module.exports = {
   fetchCartByIdDb,
   createCartDb,
   removeCartDb,
+  createProductInCartDb,
+  modifyCartDb,
+  removeCartProductDb,
 };
 
 // , addGoogleIdUserDb,

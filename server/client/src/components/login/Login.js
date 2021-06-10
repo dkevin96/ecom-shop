@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form, Input, Button, Image, Row } from "antd";
+import toast, {Toaster} from "react-hot-toast";
 
 import {
   fetchCurrentUser,
@@ -12,6 +13,14 @@ import {
   selectIsLoggedIn,
   selectCurrentUserStatus,
 } from "../../features/users/usersSlice";
+
+import {
+  selectCart,
+  fetchCurrentCart,
+  selectNeedsCheckoutRedirect,
+  needsCheckoutRedirectUpdated,
+  selectFetchCurrentCartStatus,
+} from "../../features/cart/cartSlice";
 import apiAxios from "../../config/axiosConfig";
 
 const formItemLayout = {
@@ -56,6 +65,13 @@ const Login = () => {
   const userStatus = useSelector(selectCurrentUserStatus);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
+  const cartContents = useSelector(selectCart);
+  const needsCheckoutRedirect = useSelector(selectNeedsCheckoutRedirect);
+  const fetchCurrentCartStatus = useSelector(selectFetchCurrentCartStatus);
+  // const fetchCustomerOrdersStatus = useSelector(
+  //   selectFetchCustomerOrdersStatus
+  // );
+
   const onFinish = async (data) => {
     try {
       const response = await apiAxios.post(
@@ -69,8 +85,12 @@ const Login = () => {
       if (response.status === 200) {
         dispatch(fetchCurrentUser());
         dispatch(isLoggedInUpdated(true));
+        dispatch(fetchCurrentCart(cartContents));
+        // toast.success("Log in successfully.");
+        toast("Sign in successfully!", {
+          icon: "👏",
+        });
         history.push("/");
-        // dispatch(fetchCurrentCart(cartContents));
         // dispatch(fetchCustomerOrders());
       }
     } catch (error) {
@@ -162,7 +182,7 @@ const Login = () => {
             <Input.Password />
           </Form.Item>
 
-          <Form.Item {...tailFormItemLayout} >
+          <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" size="large" width={100}>
               Submit
             </Button>
