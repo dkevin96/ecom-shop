@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import "antd/dist/antd.css";
 
 import {
   Form,
@@ -19,6 +18,7 @@ import {
   isLoggedInUpdated,
   selectCurrentUserStatus,
 } from "../../features/users/usersSlice";
+import { fetchCurrentCart, selectCart } from "../../features/cart/cartSlice";
 import apiAxios from "../../config/axiosConfig";
 
 const formItemLayout = {
@@ -64,6 +64,7 @@ const RegisterForm = (props) => {
   const [SignupMsg, setSignupMsg] = useState("");
   const [isLoginDone, setIsLoginDone] = useState(false);
   const userStatus = useSelector(selectCurrentUserStatus);
+  const cartContents = useSelector(selectCart);
 
   // props.onSubmit();
 
@@ -94,7 +95,7 @@ const RegisterForm = (props) => {
         if (loginResponse.status === 200) {
           dispatch(isLoggedInUpdated(true));
           dispatch(fetchCurrentUser());
-          // dispatch(fetchCurrentCart(cartContents))
+          dispatch(fetchCurrentCart(cartContents));
           // dispatch(fetchCustomerOrders())
           setIsLoginDone(true);
         }

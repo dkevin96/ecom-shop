@@ -1,7 +1,10 @@
 const {
-  createCartDb,
   fetchCartsDb,
   fetchCartByIdDb,
+  createCartDb,
+  createProductInCartDb,
+  modifyCartDb,
+  removeCartProductDb,
   removeCartDb,
 } = require("../db");
 

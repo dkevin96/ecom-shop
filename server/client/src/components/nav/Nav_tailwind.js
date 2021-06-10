@@ -12,6 +12,7 @@ import {
 import { Badge, Button, Dropdown, DropdownItem } from "@windmill/react-ui";
 import { LogOut, ShoppingCart, User } from "react-feather";
 import { Transition } from "@windmill/react-ui";
+import toast from "react-hot-toast";
 
 import apiAxios from "../../config/axiosConfig";
 
@@ -23,22 +24,35 @@ import {
   currentUserStatusUpdated,
   selectIsLoggedIn,
 } from "../../features/users/usersSlice";
-// import { cartProductsUpdated, selectCart } from '../features/cart/cartSlice'
+import {
+  cartProductsUpdated,
+  selectCart,
+  removeProductFromCart,
+} from "../../features/cart/cartSlice";
 // import { customerOrdersUpdated } from '../features/orders/ordersSlice'
 
 function Nav_tailwind() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const dispatch = useDispatch();
+
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectCurrentUser);
+  const cart = useSelector(selectCart);
 
+  // cart is object -> cart[keyname] return the key of property
+  const nrCartItems = Object.keys(cart).reduce(
+    (accumulator, keyname) => accumulator + cart[keyname].quantity,
+    0
+  );
   const handleLogout = async () => {
     try {
       await dispatch(isLoggedInUpdated(false));
-      await dispatch(currentUserUpdated({}));
+      await dispatch(currentUserUpdated({})); //Clear current user info from session
+      await dispatch(cartProductsUpdated({})); //Clear cart
       await dispatch(currentUserStatusUpdated("idle"));
       await apiAxios.post("/auth/logout");
+      toast.success("Log out successfully");
     } catch (err) {
       console.log(err);
     }
@@ -51,7 +65,7 @@ function Nav_tailwind() {
         className="text-gray-700 text-2xl font-bold dark:text-gray-400"
       >
         <div className="logo">
-        <a href="">Bolt</a>
+          <a href="">Bolt</a>
           <FontAwesomeIcon className="fas fa-bolt" icon={faBolt} />
         </div>
       </Link>
@@ -72,7 +86,7 @@ function Nav_tailwind() {
                   <span className="lg:block hidden">Cart</span>
                   <ShoppingCart className="lg:hidden" />
                   <Badge className="ml-2" type="danger">
-                    {/* {cartTotal} */}
+                    {nrCartItems}
                   </Badge>{" "}
                 </Button>
               </Link>
@@ -86,9 +100,10 @@ function Nav_tailwind() {
               <Link to="/cart">
                 <Button layout="link">
                   <span className="lg:block hidden">Cart</span>
-                  <ShoppingCart className="lg:hidden" />
+                  {/* <ShoppingCart className="lg:hidden" /> */}
+                  <ShoppingCart />
                   <Badge className="ml-2" type="danger">
-                    {/* {cartTotal} */}
+                    {nrCartItems}
                   </Badge>{" "}
                 </Button>
               </Link>
@@ -99,7 +114,8 @@ function Nav_tailwind() {
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
                 <span className="lg:block hidden">Account</span>
-                <User className="lg:hidden" />
+                {/* <User className="lg:hidden" /> */}
+                <User />
               </Button>
               <Transition
                 show={isDropdownOpen}
@@ -127,6 +143,11 @@ function Nav_tailwind() {
                   <DropdownItem tag="a">
                     <Link className="w-full" to="/orders">
                       Orders
+                    </Link>
+                  </DropdownItem>
+                  <DropdownItem tag="a">
+                    <Link className="w-full" to="/admin">
+                      Admin
                     </Link>
                   </DropdownItem>
                   <DropdownItem tag="a" className="border-t">
