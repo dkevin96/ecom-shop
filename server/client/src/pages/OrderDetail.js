@@ -55,14 +55,15 @@ const OrderDetail = () => {
     dispatch(fetchCustomerOrders());
   }, []);
 
-  const onclick = () => {
-    console.log(products[11]);
-  };
+//   const onclick = () => {
+//     console.log(products[11]);
+//   };
+
   return (
     <>
       {fetchStatus === "succeeded" ? (
         <LayoutHelmet>
-          <button onClick={onclick}>click</button>
+          {/* <button onClick={onclick}>click</button> */}
           <div className="my-4">
             <h1 className="font-bold text-2xl">Order Details</h1>
             <p>Order no: #{id}</p>
