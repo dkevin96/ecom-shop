@@ -16,7 +16,7 @@ const Account = () => {
   const [showEditForm, setshowEditForm] = useState(false);
 
   return (
-    <LayoutHelmet title="Profile" loading={userStatus !== "succeeded"} >
+    <LayoutHelmet title="Account" loading={userStatus !== "succeeded"} >
       {showEditForm ? (
         <EditForm user={user} setshowEditForm={setshowEditForm} />
       ) : (

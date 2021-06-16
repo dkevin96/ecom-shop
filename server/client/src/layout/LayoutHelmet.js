@@ -48,13 +48,13 @@ const LayoutHelmet = ({ children, title, loading }) => {
         }
     `}</style>
       </Helmet>
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col mt-10">
         {loading ? (
           <>
             <Spinner size={100} loading />
           </>
         ) : (
-          <div className="text-gray-700 mt-16 mx-auto px-2 lg:px-56 flex-grow h-full w-full">
+          <div className="text-gray-700 mt-16 mx-auto px-2 lg:px-56 flex-grow h-full w-full mt-20">
             <main className="h-full">{children}</main>
           </div>
         )}
