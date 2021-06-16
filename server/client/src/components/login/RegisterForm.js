@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
+import LayoutHelmet from "../../layout/LayoutHelmet"
 import {
   Form,
   Input,
@@ -36,7 +37,7 @@ const formItemLayout = {
       span: 30,
     },
     sm: {
-      span: 20,
+      span: 14,
     },
   },
 };
@@ -49,7 +50,7 @@ const tailFormItemLayout = {
     },
     sm: {
       span: 16,
-      offset: 8,
+      offset: 6,
     },
   },
 };
@@ -122,17 +123,17 @@ const RegisterForm = (props) => {
   }, [userStatus, isLoginDone]);
 
   return (
-    <>
+    <LayoutHelmet title="Register">
       <div class="w-full h-screen font-sans bg-opacity-0 bg-cover bg-register ">
         <div class="container flex items-center justify-center flex-1 h-full mx-auto">
           <div class="w-full max-w-lg">
             <div class="leading-loose">
               <div
-                className="max-w-lg p-10 m-auto bg-gray-400 bg-opacity-60 rounded shadow-xl"
+                className="max-w-lg p-5 mr-10 bg-gray-400 bg-opacity-60 rounded shadow-xl"
                 style={{ textAlign: "center" }}
               >
                 <div
-                  className="mt-20 text-white"
+                  className=" text-white"
                   style={{ textAlign: "center", color: "white" }}
                 >
                   <Space direction="vertical">
@@ -319,7 +320,7 @@ const RegisterForm = (props) => {
           </div>
         </div>
       </div>
-    </>
+    </LayoutHelmet>
   );
 };
 

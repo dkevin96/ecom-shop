@@ -29,6 +29,7 @@ import {
 import CheckoutProductList from "../components/checkout/CheckoutProductList";
 
 import Spinner from "../components/spinner/Spinner";
+import LayoutHelmet from "../layout/LayoutHelmet";
 
 const CheckOut = () => {
   const dispatch = useDispatch();
@@ -138,11 +139,9 @@ const CheckOut = () => {
     setError(event.error ? event.error.message : "");
   };
 
-  if (fetchStatus !== "succeeded") {
-    return <Spinner size={100} loading />;
-  } else {
-    return (
-      <div className="flex flex-col justify-center items-center mt-10">
+  return (
+    <LayoutHelmet loading={fetchStatus !== "succeeded"}>
+      <div className="flex flex-col justify-center items-center">
         <div className="w-full md:w-1/2">
           <h1 className="text-3xl font-semibold text-center mb-2">
             Payment details
@@ -202,8 +201,8 @@ const CheckOut = () => {
           )}
         </div>
       </div>
-    );
-  }
+    </LayoutHelmet>
+  );
 };
 
 export default CheckOut;

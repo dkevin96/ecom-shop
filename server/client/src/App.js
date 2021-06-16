@@ -32,6 +32,7 @@ import Admin from "./pages/Admin";
 import CheckOut from "./pages/CheckOut";
 import CheckOutDone from "./pages/CheckOutDone";
 import Orders from "./pages/Orders";
+import OrderDetail from "./pages/OrderDetail"
 
 import SocialApiLogin from "./pages/SocialApiLogin";
 import SocialUserRegister from "./pages/SocialUserRegister";
@@ -75,7 +76,7 @@ const App = () => {
         >
           <NavTailwind />
 
-          <div className="mt-24">
+          <div>
             <Content>
               <Switch>
                 <Route path="/login" component={Login} />
@@ -111,10 +112,11 @@ const App = () => {
                   component={Account}
                 />
                 <ProtectedRoute
-                  path="/orders"
+                  exact path="/orders"
                   isLoggedIn={isLoggedIn}
                   component={Orders}
                 />
+                <Route path="/orders/:id" component={OrderDetail} />
                 <Route exact path="/:productOffset?" component={ProductList} />
               </Switch>
             </Content>
