@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import apiAxios from "../../config/axiosConfig";
 
 // import { Button, HelperText, Input, Label } from "@windmill/react-ui";
-import { Button as windmillButton } from "@windmill/react-ui";
+import { Button as WindmillButton } from "@windmill/react-ui";
 import toast from "react-hot-toast";
 import PulseLoader from "react-spinners/PulseLoader";
 import { Edit2 } from "react-feather";
@@ -33,6 +33,7 @@ const EditForm = ({ user, setshowEditForm }) => {
     try {
       const EditResponse = await apiAxios.put("/users/self", {
         email: data.email,
+        password: data.password,
         first_name: data.firstName,
         last_name: data.lastName,
         address1: data.address1,
@@ -84,7 +85,7 @@ const EditForm = ({ user, setshowEditForm }) => {
                 },
               ]}
             >
-              <Input />
+              <Input/>
             </Form.Item>
 
             <Form.Item
@@ -118,6 +119,48 @@ const EditForm = ({ user, setshowEditForm }) => {
               ]}
             >
               <Input />
+            </Form.Item>
+
+            <Form.Item
+              name="password"
+              label="Password"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your password!",
+                },
+              ]}
+              hasFeedback
+            >
+              <Input.Password />
+            </Form.Item>
+
+            <Form.Item
+              name="confirm"
+              label="Confirm Password"
+              dependencies={["password"]}
+              hasFeedback
+              rules={[
+                {
+                  required: true,
+                  message: "Please confirm your password!",
+                },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue("password") === value) {
+                      return Promise.resolve();
+                    }
+
+                    return Promise.reject(
+                      new Error(
+                        "The two passwords that you entered do not match!"
+                      )
+                    );
+                  },
+                }),
+              ]}
+            >
+              <Input.Password />
             </Form.Item>
 
             <Form.Item
@@ -189,12 +232,12 @@ const EditForm = ({ user, setshowEditForm }) => {
                 )}
               </Button>
 
-              <windmillButton
+              <WindmillButton
                 onClick={() => setshowEditForm(false)}
                 layout="outline"
               >
                 Cancel
-              </windmillButton>
+              </WindmillButton>
             </div>
           </Form>
         </div>

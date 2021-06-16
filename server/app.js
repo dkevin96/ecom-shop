@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const config = require("./config");
 const routes = require("./routes");
 const passport = require("passport");
+const helmet = require("helmet");
 require("./config/passport");
 const cookieSession = require("cookie-session");
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
+app.use(helmet());
 app.use(morgan("dev"));
 app.use(passport.initialize());
 app.use("/api", routes);
