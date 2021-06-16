@@ -46,12 +46,16 @@ const ProductCard_antd = ({ product }) => {
           })
         );
       } else {
-        dispatch(
-          addProductToCart({
-            product_id: product.id,
-            quantity: 1,
-          })
-        );
+        try {
+          dispatch(
+            addProductToCart({
+              product_id: product.id,
+              quantity: 1,
+            })
+          );
+        } catch (err) {
+          console.log(err);
+        }
       }
       openNotification();
       dispatch(productAddedMsgUpdated(`Added ${product.name} to Cart`));
@@ -99,10 +103,10 @@ const ProductCard_antd = ({ product }) => {
           ></Card>
           {/* Add description make product cards not even */}
           <Card.Meta
-            style={{textAlign: "center"}}
+            style={{ textAlign: "center" }}
             title={<h2>{product.name}</h2>}
             // description={product.description}
-          /> 
+          />
           {/* <br></br> */}
           <Divider orientation="center">Price</Divider>
         </Link>

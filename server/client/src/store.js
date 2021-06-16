@@ -2,7 +2,7 @@ import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import productsReducer from "./features/products/productsSlice";
 import usersReducer from "./features/users/usersSlice";
 import cartReducer from "./features/cart/cartSlice";
-
+import ordersReducer from "./features/orders/ordersSlice";
 import {
   persistReducer,
   FLUSH,
@@ -32,6 +32,7 @@ export default configureStore({
     products: productsReducer,
     users: persistedUserReducer,
     cart: persistedCartReducer,
+    orders: ordersReducer,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: {

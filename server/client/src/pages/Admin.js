@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
+import LayoutHelmet from "../layout/LayoutHelmet";
+
 import { AlertCircle } from "react-feather";
 import { Button as ButtonAntd } from "antd";
 
@@ -20,82 +22,136 @@ import {
   selectCurrentUser,
   selectAllUser,
   fetchAllUser,
+  fetchCurrentUser,
+  selectDeleteUserStatus,
+  selectAllUserStatus,
+  selectCurrentUserStatus,
 } from "../features/users/usersSlice";
 
 import AdminForm from "../components/admin/Adminform";
-
+import AdminFormAntd from "../components/admin/Adminform_antd";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 const Admin = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const [isDeleted, setIsdeleted] = useState(false);
+  const [data, setData] = useState([]);
   const currentUser = useSelector(selectCurrentUser);
   const allUsers = useSelector(selectAllUser);
+  const currentUserStatus = useSelector(selectCurrentUserStatus);
+  const deleteStatus = useSelector(selectDeleteUserStatus);
+  const allUserStatus = useSelector(selectAllUserStatus);
 
   useEffect(() => {
     dispatch(fetchAllUser());
-  }, [dispatch]);
+    dispatch(fetchCurrentUser());
+  }, [dispatch, deleteStatus]);
+
+  useEffect(() => {
+    if (allUserStatus === "succeeded") {
+      setData(
+        Object.keys(allUsers)
+          .map((keyName) => allUsers[keyName])
+          .map((row) => ({
+            key: row.id,
+            id: row.id,
+            email: row.email,
+            first_name: row.first_name,
+            last_name: row.last_name,
+            date_joined: new Date(row.date_joined).toDateString(),
+            user_role: row.user_role,
+          }))
+      );
+    }
+  }, [allUserStatus]);
 
   const handleDashboardClick = () => {
     history.push("/");
   };
 
+  // useEffect(() => {
+  //   setArray()
+  // })
+  // const [array, setArray] = useState([]);
+  // Object.keys(allUsers).map((keyName) => )
+
+  // let array2 = [];
+  // let array3 = [];
+  // let array4 = [];
+  // const [a, seta] = useState([]);
+  // array2 = Array.map((ele) => Object.assign({}, ele, { key: ele.id }));
+  // array3 = Array.map((ele) => {
+  //   return ele, { ...ele, key: ele.id };
+  // });
+  // array4 = Array.map((row) => ({
+  //   key: row.id,
+  //   id: row.id,
+  //   email: row.email,
+  //   first_name: row.first_name,
+  //   last_name: row.last_name,
+  //   date_joined: new Date(row.date_joined).toDateString(),
+  //   user_role: row.user_role,
+  // }));
+
   const handleClick = () => {
-    console.log(allUsers);
+    console.log(Object.keys(allUsers).map((keyName) => allUsers[keyName]));
+    setData(
+      // new Date(row.date_joined).toDateString()
+      Object.keys(allUsers)
+        .map((keyName) => allUsers[keyName])
+        .map((row) => ({
+          key: row.id,
+          id: row.id,
+          email: row.email,
+          first_name: row.first_name,
+          last_name: row.last_name,
+          date_joined: new Date(row.date_joined).toDateString(),
+          user_role: row.user_role,
+        }))
+    );
   };
 
   if (currentUser.user_role === "admin") {
     return (
-      <div className="min-h-screen flex flex-col">
-        <div className="text-gray-700 mt-16 mx-auto px-2 lg:px-56 flex-grow h-full w-full">
+      <>
+        <LayoutHelmet loading={allUserStatus !== "succeeded"}>
           <h1 className="my-10 text-center text-4xl font-semibold">Users</h1>
-          <button onClick={handleClick}>Click</button>
-          <TableContainer>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableCell>USER</TableCell>
-                  <TableCell>EMAIL</TableCell>
-                  <TableCell>CREATED AT</TableCell>
-                  <TableCell>ROLE</TableCell>
-                  <TableCell>Remove</TableCell>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {Object.keys(allUsers).map((keyName) => {
-                  return (
-                    <TableRow>
-                      <AdminForm key={keyName} user={allUsers[keyName]} />
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
-      </div>
+          <button
+            className="my-2 text-center font-semibold"
+            onClick={handleClick}
+          >
+            Click here to refresh Table
+          </button>
+          {allUserStatus === "succeeded" ? (
+            <AdminFormAntd
+              dataSource={data}
+              currentUser={currentUser}
+            ></AdminFormAntd>
+          ) : null}
+        </LayoutHelmet>
+      </>
     );
   } else {
     return (
-      <div className="min-h-screen flex flex-col">
-        <div className="text-gray-700 mt-16 mx-auto px-2 lg:px-56 flex-grow h-full w-full">
-          <div className="flex flex-col items-center">
-            <AlertCircle
-              className="w-12 h-12 mt-8 text-purple-200"
-              color="green"
-            />
-            <h1 className="text-6xl font-semibold text-gray-700 dark:text-gray-200">
-              Sorry
-            </h1>
-            <p className="text-gray-700 dark:text-gray-300">
-              Only Admin is allowed to access this page
-              <br />
-              <ButtonAntd type="link" onClick={handleDashboardClick}>
-                Click here to return to Dashboard.
-              </ButtonAntd>
-            </p>
-          </div>
+      <LayoutHelmet>
+        <div className="flex flex-col items-center">
+          <AlertCircle
+            className="w-12 h-12 mt-8 text-purple-200"
+            color="green"
+          />
+          <h1 className="text-6xl font-semibold text-gray-700 dark:text-gray-200">
+            Sorry
+          </h1>
+          <p className="text-gray-700 dark:text-gray-300">
+            Only Admin is allowed to access this page
+            <br />
+            <ButtonAntd type="link" onClick={handleDashboardClick}>
+              Click here to return to Dashboard.
+            </ButtonAntd>
+          </p>
         </div>
-      </div>
+      </LayoutHelmet>
     );
   }
 };

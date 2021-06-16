@@ -16,6 +16,11 @@ export const fetchAllUser = createAsyncThunk("users/fetchAllUser", async () => {
   return users;
 });
 
+export const deleteUser = createAsyncThunk("users/deleteUser", async (id) => {
+  const response = await apiAxios.delete(`users/${id}`);
+  return response.status;
+});
+
 export const usersSlice = createSlice({
   name: "users",
   initialState: {
@@ -23,6 +28,7 @@ export const usersSlice = createSlice({
     currentUser: {},
     currentUserStatus: "idle",
     allUserStatus: "idle",
+    deleteUserStatus: "idle",
     isLoggedIn: false,
   },
   reducers: {
@@ -59,6 +65,15 @@ export const usersSlice = createSlice({
     [fetchAllUser.rejected]: (state, action) => {
       state.allUserStatus = "failed";
     },
+    [deleteUser.pending]: (state, action) => {
+      state.deleteUserStatus = "loading";
+    },
+    [deleteUser.fulfilled]: (state, action) => {
+      state.deleteUserStatus = "succeeded";
+    },
+    [deleteUser.rejected]: (state, action) => {
+      state.deleteUserStatus = "failed";
+    },
   },
 });
 
@@ -68,6 +83,8 @@ export const {
   currentUserStatusUpdated,
 } = usersSlice.actions;
 export const selectCurrentUserStatus = (state) => state.users.currentUserStatus;
+export const selectAllUserStatus = (state) => state.users.allUserStatus;
+export const selectDeleteUserStatus = (state) => state.users.deleteUserStatus;
 export const selectAllUser = (state) => state.users.allUser;
 export const selectCurrentUser = (state) => state.users.currentUser;
 export const selectIsLoggedIn = (state) => state.users.isLoggedIn;

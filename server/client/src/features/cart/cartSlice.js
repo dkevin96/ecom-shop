@@ -18,14 +18,19 @@ export const fetchCurrentCart = createAsyncThunk(
 );
 
 export const addProductToCart = createAsyncThunk(
-    "cart/addProductToCart",
-    async (cartProduct, { getState }) => {
-      if (getState().users.isLoggedIn) {
-        await apiAxios.post("/carts/self/product", cartProduct);
-      }
-      return cartProduct;
+  "cart/addProductToCart",
+  async (cartProduct, { getState }) => {
+    if (getState().users.isLoggedIn) {
+      await apiAxios.post("/carts/self/product", cartProduct);
+      // const response = await apiAxios.post("/carts/self/product", cartProduct);
+      // // response.data la 1 array, xem o trog postman -> convert to object bang object assign: Object.assign({}, ['a','b','c']); // {0:"a", 1:"b", 2:"c"}
+      // const cart = Object.assign({}, response.data);
+      // // cart[0] la tai vi array return chi co 1 property
+      // return cart[0];
     }
-  );
+    return cartProduct;
+  }
+);
 
 export const removeProductFromCart = createAsyncThunk(
   "cart/removeProductFromCart",
@@ -46,6 +51,11 @@ export const changeProductQuantity = createAsyncThunk(
     return product;
   }
 );
+
+export const checkoutCart = createAsyncThunk("cart/checkoutCart", async () => {
+  const response = await apiAxios.post("/carts/self/checkout");
+  return response.data;
+});
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -122,16 +132,16 @@ export const cartSlice = createSlice({
     [changeProductQuantity.rejected]: (state, action) => {
       state.changeProductQuantityStatus = "failed";
     },
-    // //Reducers for tracking status of order placement
-    // [checkoutCart.pending]: (state, action) => {
-    //   state.checkoutCartStatus = "loading";
-    // },
-    // [checkoutCart.fulfilled]: (state, action) => {
-    //   state.checkoutCartStatus = "succeeded";
-    // },
-    // [checkoutCart.rejected]: (state, action) => {
-    //   state.checkoutCartStatus = "failed";
-    // },
+    //Reducers for tracking status of order placement
+    [checkoutCart.pending]: (state, action) => {
+      state.checkoutCartStatus = "loading";
+    },
+    [checkoutCart.fulfilled]: (state, action) => {
+      state.checkoutCartStatus = "succeeded";
+    },
+    [checkoutCart.rejected]: (state, action) => {
+      state.checkoutCartStatus = "failed";
+    },
   },
 });
 
@@ -146,6 +156,8 @@ export const selectNeedsCheckoutRedirect = (state) =>
   state.cart.needsCheckoutRedirect;
 export const selectFetchCurrentCartStatus = (state) =>
   state.cart.fetchCurrentCartStatus;
+export const selectCheckoutCartStatus = (state) =>
+  state.cart.checkoutCartStatus;
 export const selectProductAddedMsg = (state) => state.cart.productAddedMsg;
 export const selectShowProductAddedMsg = (state) =>
   state.cart.showProductAddedMsg;

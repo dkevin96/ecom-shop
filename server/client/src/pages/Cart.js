@@ -1,14 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
-
-import CartProduct from "../components/cart/CartProduct";
-
-import {
-  selectCart,
-  needsCheckoutRedirectUpdated,
-} from "../features/cart/cartSlice";
-import { selectAllProducts } from "../features/products/productsSlice";
-
+import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import {
   TableContainer,
   Table,
@@ -21,25 +15,46 @@ import {
 } from "@windmill/react-ui";
 import { ShoppingCart } from "react-feather";
 
-import { useHistory } from "react-router-dom";
+import CartProduct from "../components/cart/CartProduct";
+import Spinner from "../components/spinner/Spinner";
+
+import {
+  selectCart,
+  needsCheckoutRedirectUpdated,
+  fetchCurrentCart,
+} from "../features/cart/cartSlice";
+import {
+  selectAllProducts,
+  fetchAllProducts,
+  selectFetchAllProductsStatus,
+} from "../features/products/productsSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const cartContents = useSelector(selectCart);
+  const [totalPrice, setTotalPrice] = useState();
+
   const products = useSelector(selectAllProducts);
+  const cartContents = useSelector(selectCart);
+  const fetchStatus = useSelector(selectFetchAllProductsStatus);
 
   const handleCheckout = () => {
     dispatch(needsCheckoutRedirectUpdated(true));
     history.push("/checkout");
   };
 
-  const totalPrice = Object.keys(cartContents).reduce(
-    (acc, keyName) =>
-      acc + products[keyName].price * cartContents[keyName].quantity,
-    0
-  );
+  useEffect(() => {
+    if (fetchStatus === "succeeded") {
+      const totalPriceTemp = Object.keys(cartContents).reduce(
+        (acc, keyName) =>
+          acc +
+          parseFloat(products[keyName].price) * cartContents[keyName].quantity,
+        0
+      );
+      setTotalPrice(totalPriceTemp);
+    }
+  }, [fetchStatus, dispatch, cartContents]);
 
   if (Object.keys(cartContents).length === 0) {
     return (
@@ -57,6 +72,12 @@ const Cart = () => {
           </div>
         </div>
       </div>
+    );
+  } else if (fetchStatus !== "succeeded") {
+    return (
+      <>
+        <Spinner size={100} loading />
+      </>
     );
   } else {
     return (

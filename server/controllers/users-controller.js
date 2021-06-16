@@ -2,9 +2,10 @@
  * usersService: interact with user database and return the require object
  * cartService: interact with cart database and return the require object
  */
-const { usersService, cartsService } = require("../services");
+const { usersService, cartsService, authService } = require("../services");
 const { fetchAllUsers, fetchUserById, modifyUser, removeUser } = usersService;
 const { removeCart, fetchCartById } = cartsService;
+const { getPwdHash } = authService;
 
 const getAllUsers = async (req, res, next) => {
   const users = await fetchAllUsers();
@@ -13,7 +14,7 @@ const getAllUsers = async (req, res, next) => {
 };
 
 const getUserSelf = async (req, res, next) => {
-  const id = req.user.id; //Extract id from passport user object
+  const id = req.user.id; //Extract id from passport user object token cookie
   const user = await fetchUserById(id);
   res.status(200).json(user);
   next();
@@ -23,6 +24,7 @@ const putUserSelf = async (req, res, next) => {
   const id = req.user.id; //Extract self user id from passport user object
   const {
     email,
+    password,
     first_name,
     last_name,
     address1,
@@ -31,6 +33,9 @@ const putUserSelf = async (req, res, next) => {
     city,
     country,
   } = req.body;
+
+  const pwd_hash = await getPwdHash(password);
+
   const user = {
     id,
     email,
@@ -41,6 +46,7 @@ const putUserSelf = async (req, res, next) => {
     postcode,
     city,
     country,
+    pwd_hash,
   };
   await modifyUser(user);
   res.sendStatus(200);

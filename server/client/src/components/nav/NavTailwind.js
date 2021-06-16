@@ -29,9 +29,9 @@ import {
   selectCart,
   removeProductFromCart,
 } from "../../features/cart/cartSlice";
-// import { customerOrdersUpdated } from '../features/orders/ordersSlice'
+import { customerOrdersUpdated } from '../../features/orders/ordersSlice'
 
-function Nav_tailwind() {
+function NavTailwind() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -50,12 +50,18 @@ function Nav_tailwind() {
       await dispatch(isLoggedInUpdated(false));
       await dispatch(currentUserUpdated({})); //Clear current user info from session
       await dispatch(cartProductsUpdated({})); //Clear cart
+      await dispatch(customerOrdersUpdated({})); 
       await dispatch(currentUserStatusUpdated("idle"));
       await apiAxios.post("/auth/logout");
       toast.success("Log out successfully");
+      // console.log(cart[11]);
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const click = async () => {
+    console.log(cart);
   };
 
   return (
@@ -65,21 +71,14 @@ function Nav_tailwind() {
         className="text-gray-700 text-2xl font-bold dark:text-gray-400"
       >
         <div className="logo">
-          <a href="">Bolt</a>
-          <FontAwesomeIcon className="fas fa-bolt" icon={faBolt} />
+          <FontAwesomeIcon className="fas fa-bolt" icon={faBolt} style={{color: "#1DA57A"}} />
+          <span>{" "}Bolt</span>
         </div>
       </Link>
 
       <ul className="flex space-x-4">
         {!isLoggedIn && (
           <>
-            <li>
-              <Link to="/login">
-                <Button layout="link">
-                  <span>Login</span>
-                </Button>
-              </Link>
-            </li>
             <li>
               <Link to="/cart">
                 <Button layout="link">
@@ -88,6 +87,13 @@ function Nav_tailwind() {
                   <Badge className="ml-2" type="danger">
                     {nrCartItems}
                   </Badge>{" "}
+                </Button>
+              </Link>
+            </li>
+            <li>
+              <Link to="/login">
+                <Button layout="link">
+                  <span>Login</span>
                 </Button>
               </Link>
             </li>
@@ -129,11 +135,16 @@ function Nav_tailwind() {
                 <Dropdown
                   align="right"
                   isOpen={isDropdownOpen}
+                  onClose={() => {
+                    setIsDropdownOpen(false);
+                  }}
                   className="z-10"
                 >
                   <DropdownItem className="cursor-not-allowed text-gray-400 border-b flex flex-col items-start justify-start">
-                    <p className="self-start">{user.first_name}</p>
-                    <p className="self-start">@{user.email}</p>
+                    <p className="self-start">
+                      {user.first_name} {user.last_name}
+                    </p>
+                    <p className="self-start">{user.email}</p>
                   </DropdownItem>
                   <DropdownItem tag="a">
                     <Link className="w-full" to="/account">
@@ -171,4 +182,4 @@ function Nav_tailwind() {
   );
 }
 
-export default Nav_tailwind;
+export default NavTailwind;

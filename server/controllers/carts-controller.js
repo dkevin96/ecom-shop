@@ -1,4 +1,4 @@
-const { cartsService } = require("../services");
+const { cartsService, ordersService } = require("../services");
 const {
   fetchCarts,
   fetchCartById,
@@ -6,6 +6,9 @@ const {
   modifyCart,
   removeCartProduct,
 } = cartsService;
+
+const { createOrder, createProductInOrder, calculateOrderAmount } =
+  ordersService;
 
 const getAllCarts = async (req, res, next) => {
   const carts = await fetchCarts();
@@ -47,8 +50,8 @@ const postProductInCartSelf = async (req, res, next) => {
     product_id,
     quantity,
   };
-  await createProductInCart(cartProduct);
-  res.status(201).send('Product created');
+  const newCart = await createProductInCart(cartProduct);
+  res.status(201).json(newCart);
   next();
 };
 
@@ -79,11 +82,51 @@ const deleteCartProductSelf = async (req, res, next) => {
   next();
 };
 
+const checkoutCart = async (req, res, next) => {
+  // extract from passport user object
+  const cartId = req.user.cart_id;
+  const user_id = req.user.id;
+  const amount = await calculateOrderAmount(user_id);
+  const order_price = amount / 100;
+
+  // return: [{product: {obj}, quantity: int}, {}]
+  const cart = await fetchCartById(user_id);
+  if (!cart.length) {
+    res.status(500).send("Cart is Empty");
+    next();
+  }
+  // Create new order and return the id for that order
+  const orderId = await createOrder({ userId: user_id, amount: order_price });
+
+  // Calculate
+  //Move all cart items to order
+  await Promise.all(
+    cart.map(async (item) => {
+      await createProductInOrder({
+        order_id: orderId,
+        product_id: item.product.id,
+        quantity: item.quantity,
+        price: item.product.price,
+      });
+      await removeCartProduct({
+        cart_id: cartId,
+        product_id: item.product.id,
+      });
+    })
+  );
+
+  // If move sucessfully
+  res
+    .status(201)
+    .json({ order_id: orderId, message: "Create order successfully" });
+  next();
+};
+
 module.exports = {
   getAllCarts,
   syncCartSelf,
   postProductInCartSelf,
   putCartSelf,
   deleteCartProductSelf,
-  // checkoutCart
+  checkoutCart,
 };

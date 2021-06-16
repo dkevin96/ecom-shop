@@ -13,6 +13,7 @@ const CartProduct = ({ cartItem, quantity }) => {
   const [subTotalPrice, setsubTotalPrice] = useState(
     productQty * cartItem.price
   );
+  
   const dispatch = useDispatch();
 
   // console.log(cartItem);

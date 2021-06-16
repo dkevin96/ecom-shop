@@ -7,7 +7,7 @@ import RegisterSuccess from "./RegisterSuccess";
 import RegisterForm from "./RegisterForm";
 
 const Register = () => {
-  const [formIsSubmitted, setformIsSubmitted] = useState();
+  const [formIsSubmitted, setformIsSubmitted] = useState(false);
 
   const submitSucess = () => {
     setformIsSubmitted(true);
@@ -15,8 +15,7 @@ const Register = () => {
 
   return (
     <>
-      <Toaster position="top-right" />
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      {/* <div style={{ display: "flex", justifyContent: "center" }}>
         <img
           width={600}
           preview={{
@@ -24,7 +23,7 @@ const Register = () => {
           }}
           src="https://image.freepik.com/free-vector/job-interview-conversation_74855-7566.jpg"
         />
-      </div>
+      </div> */}
       {formIsSubmitted ? (
         <RegisterSuccess />
       ) : (
