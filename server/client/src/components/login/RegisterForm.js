@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import "antd/dist/antd.css";
 
+import LayoutHelmet from "../../layout/LayoutHelmet"
 import {
   Form,
   Input,
@@ -19,12 +19,14 @@ import {
   isLoggedInUpdated,
   selectCurrentUserStatus,
 } from "../../features/users/usersSlice";
+import { fetchCurrentCart, selectCart } from "../../features/cart/cartSlice";
 import apiAxios from "../../config/axiosConfig";
+import toast from "react-hot-toast";
 
 const formItemLayout = {
   labelCol: {
     xs: {
-      span: 24,
+      span: 30,
     },
     sm: {
       span: 8,
@@ -32,10 +34,10 @@ const formItemLayout = {
   },
   wrapperCol: {
     xs: {
-      span: 24,
+      span: 30,
     },
     sm: {
-      span: 16,
+      span: 14,
     },
   },
 };
@@ -48,7 +50,7 @@ const tailFormItemLayout = {
     },
     sm: {
       span: 16,
-      offset: 8,
+      offset: 6,
     },
   },
 };
@@ -64,6 +66,7 @@ const RegisterForm = (props) => {
   const [SignupMsg, setSignupMsg] = useState("");
   const [isLoginDone, setIsLoginDone] = useState(false);
   const userStatus = useSelector(selectCurrentUserStatus);
+  const cartContents = useSelector(selectCart);
 
   // props.onSubmit();
 
@@ -94,15 +97,16 @@ const RegisterForm = (props) => {
         if (loginResponse.status === 200) {
           dispatch(isLoggedInUpdated(true));
           dispatch(fetchCurrentUser());
-          // dispatch(fetchCurrentCart(cartContents))
+          dispatch(fetchCurrentCart(cartContents));
           // dispatch(fetchCustomerOrders())
           setIsLoginDone(true);
         }
       }
     } catch (err) {
       if (err.response) {
-        console.log(err.response.data);
+        console.log(err.response);
         setErrorMsg(err.response.data);
+        toast.error(errorMsg);
       } else if (err.request) {
         console.log(err.request.data);
       } else {
@@ -119,183 +123,204 @@ const RegisterForm = (props) => {
   }, [userStatus, isLoginDone]);
 
   return (
-    <>
-      <div style={{ textAlign: "center" }}>
-        <Space direction="vertical">
-          <Title level={2} style={{ textAlign: "center" }}>
-            Register
-          </Title>
-        </Space>
+    <LayoutHelmet title="Register">
+      <div class="w-full h-screen font-sans bg-opacity-0 bg-cover bg-register ">
+        <div class="container flex items-center justify-center flex-1 h-full mx-auto">
+          <div class="w-full max-w-lg">
+            <div class="leading-loose">
+              <div
+                className="max-w-lg p-5 mr-10 bg-gray-400 bg-opacity-60 rounded shadow-xl"
+                style={{ textAlign: "center" }}
+              >
+                <div
+                  className=" text-white"
+                  style={{ textAlign: "center", color: "white" }}
+                >
+                  <Space direction="vertical">
+                    <Title level={2} style={{ textAlign: "center" }}>
+                      Register
+                    </Title>
+                  </Space>
+                </div>
+                <br />
+                <Form
+                  // style={{ width: "80%", textAlign: "center", paddingLeft: 30 }}
+                  {...formItemLayout}
+                  form={form}
+                  name="register"
+                  onFinish={onFinish}
+                  scrollToFirstError
+                >
+                  <Form.Item
+                    name="email"
+                    label={<label style={{ color: "black" }}>Email</label>}
+                    // label="E-mail"
+                    rules={[
+                      {
+                        type: "email",
+                        message: "The input is not valid E-mail!",
+                      },
+                      {
+                        required: true,
+                        message: "Please input your E-mail!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="password"
+                    label="Password"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your password!",
+                      },
+                    ]}
+                    hasFeedback
+                  >
+                    <Input.Password />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="confirm"
+                    label="Confirm Password"
+                    dependencies={["password"]}
+                    hasFeedback
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please confirm your password!",
+                      },
+                      ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (!value || getFieldValue("password") === value) {
+                            return Promise.resolve();
+                          }
+
+                          return Promise.reject(
+                            new Error(
+                              "The two passwords that you entered do not match!"
+                            )
+                          );
+                        },
+                      }),
+                    ]}
+                  >
+                    <Input.Password />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="firstName"
+                    label="Firstname"
+                    tooltip="What do you want others to call you?"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your firstname!",
+                        whitespace: true,
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="lastName"
+                    label="Lastname"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your lastname!",
+                        whitespace: true,
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="address1"
+                    label="Address Line 1"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your address!",
+                        whitespace: true,
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  <Form.Item name="address2" label="Address Line 2">
+                    <Input />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="postcode"
+                    label="Postcode"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Max length is 6",
+                        max: 6,
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="city"
+                    label="City"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your city",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  <Form.Item name="country" label="Country">
+                    <Input />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="agreement"
+                    valuePropName="checked"
+                    rules={[
+                      {
+                        validator: (_, value) =>
+                          value
+                            ? Promise.resolve()
+                            : Promise.reject(
+                                new Error("Should accept agreement")
+                              ),
+                      },
+                    ]}
+                    {...tailFormItemLayout}
+                  >
+                    <Checkbox style={{ color: "black" }} >
+                      I have read the <a>agreement</a>
+                    </Checkbox>
+                  </Form.Item>
+
+                  <Form.Item {...tailFormItemLayout}>
+                    <Button type="primary" htmlType="submit">
+                      Register
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <br />
-      <Form
-        style={{ width: "80%", textAlign: "center", paddingLeft: 30 }}
-        {...formItemLayout}
-        form={form}
-        name="register"
-        onFinish={onFinish}
-        scrollToFirstError
-      >
-        <Form.Item
-          name="email"
-          label="E-mail"
-          rules={[
-            {
-              type: "email",
-              message: "The input is not valid E-mail!",
-            },
-            {
-              required: true,
-              message: "Please input your E-mail!",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="password"
-          label="Password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-          ]}
-          hasFeedback
-        >
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item
-          name="confirm"
-          label="Confirm Password"
-          dependencies={["password"]}
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: "Please confirm your password!",
-            },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue("password") === value) {
-                  return Promise.resolve();
-                }
-
-                return Promise.reject(
-                  new Error("The two passwords that you entered do not match!")
-                );
-              },
-            }),
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item
-          name="firstName"
-          label="Firstname"
-          tooltip="What do you want others to call you?"
-          rules={[
-            {
-              required: true,
-              message: "Please input your firstname!",
-              whitespace: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="lastName"
-          label="Lastname"
-          rules={[
-            {
-              required: true,
-              message: "Please input your lastname!",
-              whitespace: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="address1"
-          label="Address Line 1"
-          rules={[
-            {
-              required: true,
-              message: "Please input your address!",
-              whitespace: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item name="address2" label="Address Line 2">
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="postcode"
-          label="Postcode"
-          rules={[
-            {
-              required: true,
-              message: "Max length is 6",
-              max: 6,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="city"
-          label="City"
-          rules={[
-            {
-              required: true,
-              message: "Please input your city",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item name="country" label="Country">
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="agreement"
-          valuePropName="checked"
-          rules={[
-            {
-              validator: (_, value) =>
-                value
-                  ? Promise.resolve()
-                  : Promise.reject(new Error("Should accept agreement")),
-            },
-          ]}
-          {...tailFormItemLayout}
-        >
-          <Checkbox>
-            I have read the <a href="">agreement</a>
-          </Checkbox>
-        </Form.Item>
-
-        <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
-            Register
-          </Button>
-        </Form.Item>
-      </Form>
-    </>
+    </LayoutHelmet>
   );
 };
 

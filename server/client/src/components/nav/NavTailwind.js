@@ -12,6 +12,7 @@ import {
 import { Badge, Button, Dropdown, DropdownItem } from "@windmill/react-ui";
 import { LogOut, ShoppingCart, User } from "react-feather";
 import { Transition } from "@windmill/react-ui";
+import toast from "react-hot-toast";
 
 import apiAxios from "../../config/axiosConfig";
 
@@ -23,25 +24,44 @@ import {
   currentUserStatusUpdated,
   selectIsLoggedIn,
 } from "../../features/users/usersSlice";
-// import { cartProductsUpdated, selectCart } from '../features/cart/cartSlice'
-// import { customerOrdersUpdated } from '../features/orders/ordersSlice'
+import {
+  cartProductsUpdated,
+  selectCart,
+  removeProductFromCart,
+} from "../../features/cart/cartSlice";
+import { customerOrdersUpdated } from '../../features/orders/ordersSlice'
 
-function Nav_tailwind() {
+function NavTailwind() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const dispatch = useDispatch();
+
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectCurrentUser);
+  const cart = useSelector(selectCart);
 
+  // cart is object -> cart[keyname] return the key of property
+  const nrCartItems = Object.keys(cart).reduce(
+    (accumulator, keyname) => accumulator + cart[keyname].quantity,
+    0
+  );
   const handleLogout = async () => {
     try {
       await dispatch(isLoggedInUpdated(false));
-      await dispatch(currentUserUpdated({}));
+      await dispatch(currentUserUpdated({})); //Clear current user info from session
+      await dispatch(cartProductsUpdated({})); //Clear cart
+      await dispatch(customerOrdersUpdated({})); 
       await dispatch(currentUserStatusUpdated("idle"));
       await apiAxios.post("/auth/logout");
+      toast.success("Log out successfully");
+      // console.log(cart[11]);
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const click = async () => {
+    console.log(cart);
   };
 
   return (
@@ -51,8 +71,8 @@ function Nav_tailwind() {
         className="text-gray-700 text-2xl font-bold dark:text-gray-400"
       >
         <div className="logo">
-        <a href="">Bolt</a>
-          <FontAwesomeIcon className="fas fa-bolt" icon={faBolt} />
+          <FontAwesomeIcon className="fas fa-bolt" icon={faBolt} style={{color: "#1DA57A"}} />
+          <span>{" "}Bolt</span>
         </div>
       </Link>
 
@@ -60,20 +80,20 @@ function Nav_tailwind() {
         {!isLoggedIn && (
           <>
             <li>
-              <Link to="/login">
-                <Button layout="link">
-                  <span>Login</span>
-                </Button>
-              </Link>
-            </li>
-            <li>
               <Link to="/cart">
                 <Button layout="link">
                   <span className="lg:block hidden">Cart</span>
                   <ShoppingCart className="lg:hidden" />
                   <Badge className="ml-2" type="danger">
-                    {/* {cartTotal} */}
+                    {nrCartItems}
                   </Badge>{" "}
+                </Button>
+              </Link>
+            </li>
+            <li>
+              <Link to="/login">
+                <Button layout="link">
+                  <span>Login</span>
                 </Button>
               </Link>
             </li>
@@ -86,9 +106,10 @@ function Nav_tailwind() {
               <Link to="/cart">
                 <Button layout="link">
                   <span className="lg:block hidden">Cart</span>
-                  <ShoppingCart className="lg:hidden" />
+                  {/* <ShoppingCart className="lg:hidden" /> */}
+                  <ShoppingCart />
                   <Badge className="ml-2" type="danger">
-                    {/* {cartTotal} */}
+                    {nrCartItems}
                   </Badge>{" "}
                 </Button>
               </Link>
@@ -99,7 +120,8 @@ function Nav_tailwind() {
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
                 <span className="lg:block hidden">Account</span>
-                <User className="lg:hidden" />
+                {/* <User className="lg:hidden" /> */}
+                <User />
               </Button>
               <Transition
                 show={isDropdownOpen}
@@ -113,11 +135,16 @@ function Nav_tailwind() {
                 <Dropdown
                   align="right"
                   isOpen={isDropdownOpen}
+                  onClose={() => {
+                    setIsDropdownOpen(false);
+                  }}
                   className="z-10"
                 >
                   <DropdownItem className="cursor-not-allowed text-gray-400 border-b flex flex-col items-start justify-start">
-                    <p className="self-start">{user.first_name}</p>
-                    <p className="self-start">@{user.email}</p>
+                    <p className="self-start">
+                      {user.first_name} {user.last_name}
+                    </p>
+                    <p className="self-start">{user.email}</p>
                   </DropdownItem>
                   <DropdownItem tag="a">
                     <Link className="w-full" to="/account">
@@ -127,6 +154,11 @@ function Nav_tailwind() {
                   <DropdownItem tag="a">
                     <Link className="w-full" to="/orders">
                       Orders
+                    </Link>
+                  </DropdownItem>
+                  <DropdownItem tag="a">
+                    <Link className="w-full" to="/admin">
+                      Admin
                     </Link>
                   </DropdownItem>
                   <DropdownItem tag="a" className="border-t">
@@ -150,4 +182,4 @@ function Nav_tailwind() {
   );
 }
 
-export default Nav_tailwind;
+export default NavTailwind;

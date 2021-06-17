@@ -2,6 +2,10 @@ const {
   fetchUsersDb,
   fetchUserByIdDb,
   fetchUserByEmailDb,
+  fetchUserByGoogleIdDb,
+  addGoogleIdUserDb,
+  fetchUserByFacebookIdDb,
+  addFacebookIdUserDb,
   createUserDb,
   modifyUserDb,
   removeUserDb,
@@ -17,6 +21,24 @@ const fetchUserById = async (id) => {
 
 const fetchUserByEmail = async (email) => {
   return await fetchUserByEmailDb(email);
+};
+
+// GOOLE OATH LOGIN
+const fetchUserByGoogleId = async (id) => {
+  return await fetchUserByGoogleIdDb(id);
+};
+
+const addGoogleIdUser = async (user) => {
+  return await addGoogleIdUserDb(user);
+};
+
+// FACEBOOK OATH LOGIN
+const fetchUserByFacebookId = async (id) => {
+  return await fetchUserByFacebookIdDb(id);
+};
+
+const addFacebookIdUser = async (user) => {
+  return await addFacebookIdUserDb(user);
 };
 
 const createUser = async (user) => {
@@ -38,4 +60,8 @@ module.exports = {
   createUser,
   modifyUser,
   removeUser,
+  addGoogleIdUser,
+  fetchUserByGoogleId,
+  fetchUserByFacebookId,
+  addFacebookIdUser,
 };

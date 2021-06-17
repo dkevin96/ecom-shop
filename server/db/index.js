@@ -9,19 +9,39 @@ const {
   fetchUsersDb,
   fetchUserByIdDb,
   fetchUserByEmailDb,
+  fetchUserByFacebookIdDb,
+  fetchUserByGoogleIdDb,
+  addGoogleIdUserDb,
+  addFacebookIdUserDb,
   createUserDb,
   modifyUserDb,
   removeUserDb,
 } = require("./users.db");
-// const { fetchOrdersDb, fetchOrderByIdDb, fetchOrdersByUserDb, createOrderDb, createProductInOrderDb } = require('./orders.db')
+const {
+  fetchOrdersDb,
+  fetchOrderByIdDb,
+  fetchOrdersByUserDb,
+  createOrderDb,
+  createProductInOrderDb,
+} = require("./orders.db");
 const {
   fetchCartsDb,
-  createCartDb,
   fetchCartByIdDb,
+  createCartDb,
+  createProductInCartDb,
+  modifyCartDb,
+  removeCartProductDb,
   removeCartDb,
 } = require("./carts.db");
 
 module.exports = {
+  fetchCartsDb,
+  fetchCartByIdDb,
+  createCartDb,
+  createProductInCartDb,
+  modifyCartDb,
+  removeCartProductDb,
+  removeCartDb,
   fetchProductsDb,
   fetchProductByIdDb,
   createProductDb,
@@ -32,13 +52,23 @@ module.exports = {
   fetchUserByEmailDb,
   createUserDb,
   modifyUserDb,
+  addGoogleIdUserDb,
+  fetchUserByGoogleIdDb,
+  fetchUserByFacebookIdDb,
+  addFacebookIdUserDb,
   removeUserDb,
   fetchCartsDb,
   fetchCartByIdDb,
   createCartDb,
   removeCartDb,
+  createProductInCartDb,
+  modifyCartDb,
+  removeCartProductDb,
+  fetchOrdersDb,
+  fetchOrderByIdDb,
+  fetchOrdersByUserDb,
+  createOrderDb,
+  createProductInOrderDb,
 };
 
-// , addGoogleIdUserDb,
-//   fetchOrdersDb, fetchOrderByIdDb, fetchOrdersByUserDb, createOrderDb, createProductInOrderDb,
-//   fetchCartsDb, fetchCartByIdDb, createCartDb, createProductInCartDb, modifyCartDb, removeCartProductDb, removeCartDb
+// ,,

@@ -5,22 +5,26 @@ import App from "./App";
 import { Provider } from "react-redux";
 import store from "./store";
 import reportWebVitals from "./reportWebVitals";
-import { PersistGate } from 'redux-persist/integration/react'
-import { persistStore } from 'redux-persist';
+import { HelmetProvider } from "react-helmet-async";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+import { Toaster } from "react-hot-toast";
+
 // needed to import form index.js, not in app.js because every time the browser re-render, it will
 // use the default style from tailwind in index css
 import "./App.less";
 
-let persistor = persistStore(store)
+let persistor = persistStore(store);
 
 ReactDOM.render(
-  <React.StrictMode>
+  <HelmetProvider>
     <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <Toaster />
+        <App />
       </PersistGate>
     </Provider>
-  </React.StrictMode>,
+  </HelmetProvider>,
   document.getElementById("root")
 );
 
