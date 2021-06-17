@@ -35,7 +35,7 @@ app.use((error, req, res, next) => {
 });
 
 // view engine setup
-app.use(express.static(path.join(__dirname, "./client/build")));
+// app.use(express.static(path.join(__dirname, "./client/build")));g
 if (process.env.NODE_ENV === "production") {
   // only use in development
   app.use(express.static(path.join(__dirname, "./client/build")));
@@ -60,6 +60,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(config.port, () =>
+app.listen(config.port, () =>
   console.log(`Server listening on port ${config.port}`)
 );

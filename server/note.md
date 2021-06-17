@@ -74,10 +74,10 @@ VALUES ('kevin');
 
 ### Variable to set in heroku
 
-- GOOGLE_FRONT_END_REDIRECT_URL
-- GOOGLE_CLIENT_ID
-- GOOGLE_CLIENT_SECRET
-- GOOGLE_CALLBACK_URL
+[] GOOGLE_FRONT_END_REDIRECT_URL 
+[X] GOOGLE_CLIENT_ID
+[X] GOOGLE_CLIENT_SECRET
+[] GOOGLE_CALLBACK_URL
 
 ## 13.06
 
@@ -117,4 +117,3 @@ can order, add order to BE
 [X] Fix build error. Cause: content security policy prevents app from using scripts and images from other sites. Fix: install chrome disable content policy- extension 
  -> dont know if this error still exist when deploy
 
- 
