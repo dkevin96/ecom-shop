@@ -28,11 +28,6 @@ const LayoutHelmet = ({ children, title, loading }) => {
         />
         <meta property="og:url" content="https://localhost:3000" />
         <meta property="og:site_name" content="Bolt" />
-        {/* <meta property="og:image" content="android-chrome-512x512.png" />
-        <meta
-          property="og:image:secure_url"
-          content="android-chrome-512x512.png"
-        /> */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@_kevin" />
         <meta name="twitter:creator" content="@_kevin" />

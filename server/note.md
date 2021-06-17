@@ -110,5 +110,11 @@ can order, add order to BE
 
 ## 16.06
 [X] Add helmet to FE and BE ( remember to add helmetprovider tag to index js)
-[] order history page
+[X] order history page
 [] product page
+
+## 17.06 
+[X] Fix build error. Cause: content security policy prevents app from using scripts and images from other sites. Fix: install chrome disable content policy- extension 
+ -> dont know if this error still exist when deploy
+
+ 

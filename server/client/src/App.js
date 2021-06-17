@@ -2,7 +2,6 @@ import logo from "./logo.svg";
 // import "./App.less";
 
 import { Layout } from "antd";
-
 import { useEffect, Suspense } from "react";
 import Nav from "./components/nav/Nav";
 import NavTailwind from "./components/nav/NavTailwind";
@@ -49,6 +48,9 @@ import {
 const { Header, Content, Footer } = Layout;
 // Cart is from pages, not from component because i decide to restructure
 
+// Make sure to call loadStripe outside of a component’s render to avoid
+// recreating the Stripe object on every render.
+// loadStripe is initialized with your real test publishable API key.
 const promise = loadStripe(
   "pk_test_51J2bDVIs4Y3r7jclFrzUNd4KRPgMOk0VWuz7FYO9yAXOlhVHL7uh0FysCDYzu6U5tQfych1qHFQoNfZmqjk2j9te00T63G90bC"
 );
@@ -63,7 +65,7 @@ const App = () => {
     dispatch(fetchCustomerOrders());
   }, [dispatch]);
 
-  // f6f6f6
+
   return (
     <Elements stripe={promise}>
       <Router>
