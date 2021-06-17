@@ -12,16 +12,8 @@ CREATE TABLE "users" (
   "pwd_hash" varchar(100),
   "date_joined" timestamp DEFAULT (now()),
   "active" boolean DEFAULT true,
-  "user_role" varchar(100)
-);
-
-CREATE TABLE "users" (
-  "id" SERIAL PRIMARY KEY,
-  "created_at" timestamp DEFAULT (now()),
-  "created_by" varchar(100),
-  "date_joined" timestamp DEFAULT (now()),
-  "active" boolean DEFAULT true,
-  "user_role" varchar(100)
+  "user_role" varchar(100),
+  "facebook_id" varchar(100)
 );
 
 CREATE TABLE "order_products" (
@@ -51,7 +43,7 @@ CREATE TABLE "products" (
 
 CREATE TABLE "carts" (
   "id" SERIAL PRIMARY KEY,
-  "user_id" int UNIQUE NOT NULL
+  "user_id" int NOT NULL
 );
 
 CREATE TABLE "cart_products" (
@@ -68,7 +60,7 @@ ALTER TABLE "orders" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
 ALTER TABLE "carts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") on DELETE CASCADE;
 
-ALTER TABLE "cart_products" ADD FOREIGN KEY ("cart_id") REFERENCES "carts" ("id");
+ALTER TABLE "cart_products" ADD FOREIGN KEY ("cart_id") REFERENCES "carts" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "cart_products" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
 

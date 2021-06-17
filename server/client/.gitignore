@@ -3,7 +3,7 @@
 # dependencies
 /node_modules
 /.pnp
-.pnp.js
+.pnp.jsheroki 
 .yarn/*
 !.yarn/patches
 !.yarn/releases
