@@ -20,8 +20,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
-app.use(helmet());
-// app.use(morgan("dev"));
+// helmet causing app to set content policy, which will block app to load script,.. from other sites, ex: stripe 
+// app.use(helmet());
+app.use(morgan("dev"));
 app.use(passport.initialize());
 app.use("/api", routes);
 
@@ -35,7 +36,7 @@ app.use((error, req, res, next) => {
 });
 
 // view engine setup
-// app.use(express.static(path.join(__dirname, "./client/build")));g
+// app.use(express.static(path.join(__dirname, "./client/build")));
 if (process.env.NODE_ENV === "production") {
   // only use in development
   app.use(express.static(path.join(__dirname, "./client/build")));

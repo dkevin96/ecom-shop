@@ -11,6 +11,5 @@ module.exports = function (app) {
     changeOrigin: true,
     ws: true,
   });
-  app.use(socket);
   app.use(proxy);
 };
