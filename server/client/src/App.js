@@ -118,6 +118,7 @@ const App = () => {
                   isLoggedIn={isLoggedIn}
                   component={Orders}
                 />
+                <Route path="/product/:id" component={ProductDetail} />
                 <Route path="/orders/:id" component={OrderDetail} />
                 <Route exact path="/:productOffset?" component={ProductList} />
               </Switch>

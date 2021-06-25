@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Nav.less";
 
@@ -28,13 +28,32 @@ import {
   cartProductsUpdated,
   selectCart,
   removeProductFromCart,
+  selectFetchCurrentCartStatus,
+  fetchCurrentCart,
 } from "../../features/cart/cartSlice";
-import { customerOrdersUpdated } from '../../features/orders/ordersSlice'
+import { customerOrdersUpdated } from "../../features/orders/ordersSlice";
 
 function NavTailwind() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  const fetchStatus = useSelector(selectFetchCurrentCartStatus);
   const dispatch = useDispatch();
+
+  // const makeCart = () => {
+  //   if(fetchStatus === "succeeded") {
+  //     setTimeout(
+  //       // dispatch(fetchCurrentCart())
+  //     , 3000);
+  //     console.log("1");
+  //   }
+
+  // };
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     dispatch(fetchCurrentCart());
+  //   }, 5000);
+  //   return () => clearTimeout(timer);
+  // }, [fetchStatus]);
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectCurrentUser);
@@ -50,7 +69,7 @@ function NavTailwind() {
       await dispatch(isLoggedInUpdated(false));
       await dispatch(currentUserUpdated({})); //Clear current user info from session
       await dispatch(cartProductsUpdated({})); //Clear cart
-      await dispatch(customerOrdersUpdated({})); 
+      await dispatch(customerOrdersUpdated({}));
       await dispatch(currentUserStatusUpdated("idle"));
       await apiAxios.post("/auth/logout");
       toast.success("Log out successfully");
@@ -71,8 +90,12 @@ function NavTailwind() {
         className="text-gray-700 text-2xl font-bold dark:text-gray-400"
       >
         <div className="logo">
-          <FontAwesomeIcon className="fas fa-bolt" icon={faBolt} style={{color: "#1DA57A"}} />
-          <span>{" "}Bolt</span>
+          <FontAwesomeIcon
+            className="fas fa-bolt"
+            icon={faBolt}
+            style={{ color: "#1DA57A" }}
+          />
+          <span> Bolt</span>
         </div>
       </Link>
 

@@ -85,6 +85,7 @@ const ProductCard_antd = ({ product }) => {
       return true;
     }
   };
+
   return (
     <Col md={8}>
       <Card hoverable>
@@ -119,7 +120,7 @@ const ProductCard_antd = ({ product }) => {
             textAlign: "center",
           }}
         >
-          {product.price}
+          ${product.price}
         </p>
         <Row
           gutter={[10]}

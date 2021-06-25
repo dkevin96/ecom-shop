@@ -74,7 +74,7 @@ VALUES ('kevin');
 
 ### Variable to set in heroku
 
-[] GOOGLE_FRONT_END_REDIRECT_URL 
+[] GOOGLE_FRONT_END_REDIRECT_URL
 [X] GOOGLE_CLIENT_ID
 [X] GOOGLE_CLIENT_SECRET
 [] GOOGLE_CALLBACK_URL
@@ -103,17 +103,23 @@ div className="mt-24"
 Use spinner and wait for fetchstatus=succedded
 
 ## 15.06
-- User can checkout. In checkout page, dispatch checkout(), which will (in BE) retrieve the cart_id and user_id from passport object. Then it will 
-[X] FInish checkout api (order)
-can order, add order to BE
-[X] Stripe 
+
+- User can checkout. In checkout page, dispatch checkout(), which will (in BE) retrieve the cart_id and user_id from passport object. Then it will
+  [X] FInish checkout api (order)
+  can order, add order to BE
+  [X] Stripe
 
 ## 16.06
+
 [X] Add helmet to FE and BE ( remember to add helmetprovider tag to index js)
 [X] order history page
 [] product page
 
-## 17.06 
-[X] Fix build error. Cause: content security policy prevents app from using scripts and images from other sites. Fix: install chrome disable content policy- extension 
- -> dont know if this error still exist when deploy
+## 17.06
 
+[X] Fix build error. Cause: content security policy prevents app from using scripts and images from other sites. Fix: install chrome disable content policy- extension
+-> dont know if this error still exist when deploy
+
+## Heroku-Command
+
+1. heroku login
