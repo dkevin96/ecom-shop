@@ -123,3 +123,6 @@ Use spinner and wait for fetchstatus=succedded
 ## Heroku-Command
 
 1. heroku login
+2. git add --all
+3. git commit -m ""
+4. git push heroku main
