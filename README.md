@@ -92,7 +92,7 @@ Install dependencies ( in server-, client-directory)
 Start the client ( in server-, client-directory) 
 
 ```bash
-  yarn run
+  yarn run start
 ```
 
 ## Environment Variables
