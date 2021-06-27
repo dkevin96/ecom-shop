@@ -3,7 +3,7 @@
 
 A small full-stack e-commerce project built with Postgres, Express, React and Node.
 
-## [Click here to try out the current live version](bolt-store-deploy.herokuapp.com/)
+## [Click here to try out the current live version](https://bolt-store-deploy.herokuapp.com/)
 
 <!-- TABLE OF CONTENTS -->
 
