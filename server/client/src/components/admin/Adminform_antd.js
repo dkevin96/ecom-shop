@@ -159,11 +159,17 @@ const AdminFormAntd = props => {
   ];
 
   const handleDelete = key => {
+    const user = dataSource.find(user => user.id === key);
+    if (user.email === 'admin@mail.com') {
+      toast.error('Cannot delete default admin user!');
+      return;
+    }
+
     if (currentUser.id === key) {
       toast.error('Cannot delete current user!');
     } else {
-      toast.success('Delete Succesfully');
       dispatch(deleteUser(key));
+      toast.success('Delete Succesfully');
     }
   };
 

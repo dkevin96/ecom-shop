@@ -143,7 +143,7 @@ const CheckOut = () => {
             not charge any real money.
           </p>
           <form onSubmit={ev => handleSubmit(ev)}>
-            <CardElement className="border py-2" onChange={handleChange} />
+            <CardElement  className="border py-2" onChange={handleChange} />
             <div className="flex justify-between py-4">
               <Button onClick={() => history.push('/cart')} layout="outline" size="small">
                 Back

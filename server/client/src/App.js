@@ -43,7 +43,7 @@ const { Header, Content, Footer } = Layout;
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // loadStripe is initialized with your real test publishable API key.
-const promise = loadStripe('pk_test_51J2bDVIs4Y3r7jclFrzUNd4KRPgMOk0VWuz7FYO9yAXOlhVHL7uh0FysCDYzu6U5tQfych1qHFQoNfZmqjk2j9te00T63G90bC');
+const promise = loadStripe('pk_test_2Jzc9BD0pnA9IGXZ6mYloPgW00zGp6iRbA');
 
 const App = () => {
   const dispatch = useDispatch();

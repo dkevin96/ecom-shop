@@ -47,13 +47,18 @@ const deleteUser = async (req, res, next) => {
   const { id } = req.params;
   const cart = await fetchCartById(id);
   const user = await fetchUserById(id);
-
   // If there is item in cart then send error
   // Alternativ : cart.length || !user
   if (!user) {
     const error = new Error('Incorrect user');
     return next(error);
   }
+
+  if (user.email === 'admin@mail.com') {
+    const error = new Error('Cannot delete admin user');
+    return next(error);
+  }
+
   await removeCart(id);
   await removeUser(id);
   res.status(200).json({ msg: 'User and cart deleted' });
