@@ -216,11 +216,10 @@ const Login = () => {
                   onFinish={onFinish}
                   {...formItemLayout}
                 >
-                  <div className="mt-8"></div>
                   <Form.Item
                     label="Email"
                     name="email"
-                    values=""
+                    initialValue="admin@mail.com"
                     rules={[
                       {
                         required: true,
@@ -235,6 +234,7 @@ const Login = () => {
                   <Form.Item
                     label="Password"
                     name="password"
+                    initialValue="password"
                     rules={[
                       {
                         required: true,

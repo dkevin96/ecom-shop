@@ -95,6 +95,8 @@ Start the client ( in server-, client-directory)
   yarn run start
 ```
 
+docker-compose -f docker-compose.dev.yml up -d
+
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
@@ -102,36 +104,14 @@ To run this project, you will need to add the following environment variables to
 ### server/.env
 
 `DB_USER`
-
 `DB_PASSWORD`
-
 `DB_HOST`
-
 `DB_PORT`
-
 `DB_DATABASE`
-
 `PORT`
-
 `STRIPE_KEY`
-
 `GOOGLE_CLIENT_ID`
-
 `GOOGLE_CLIENT_SECRET`
-
 `FACEBOOK_CLIENT_ID`
-
 `FACEBOOK_CLIENT_SECRET`
 
-
-<!-- CONTRIBUTING -->
-
-## :fire: Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
