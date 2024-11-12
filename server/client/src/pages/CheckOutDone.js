@@ -1,10 +1,10 @@
-import { useHistory, useParams, Link, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect } from "react";
-import { Button } from "@windmill/react-ui";
-import { CheckCircle } from "react-feather";
+import { useHistory, useParams, Link, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { Button } from '@windmill/react-ui';
+import { CheckCircle } from 'react-feather';
 
-import { selectCheckoutCartStatus } from "../features/cart/cartSlice";
+import { selectCheckoutCartStatus } from '../features/cart/cartSlice';
 
 const CheckOutDone = () => {
   const { state } = useLocation();
@@ -15,8 +15,8 @@ const CheckOutDone = () => {
 
   useEffect(() => {
     if (!state?.fromCheckoutPage) {
-      console.log("Checkout not finished");
-      history.push("/");
+      console.log('Checkout not finished');
+      history.push('/');
     }
   }, []);
 

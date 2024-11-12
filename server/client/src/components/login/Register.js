@@ -1,10 +1,10 @@
-import { useRef, useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useRef, useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { Toaster } from "react-hot-toast";
-import RegisterSuccess from "./RegisterSuccess";
-import RegisterForm from "./RegisterForm";
+import { Toaster } from 'react-hot-toast';
+import RegisterSuccess from './RegisterSuccess';
+import RegisterForm from './RegisterForm';
 
 const Register = () => {
   const [formIsSubmitted, setformIsSubmitted] = useState(false);
@@ -24,11 +24,7 @@ const Register = () => {
           src="https://image.freepik.com/free-vector/job-interview-conversation_74855-7566.jpg"
         />
       </div> */}
-      {formIsSubmitted ? (
-        <RegisterSuccess />
-      ) : (
-        <RegisterForm onSubmit={submitSucess} />
-      )}
+      {formIsSubmitted ? <RegisterSuccess /> : <RegisterForm onSubmit={submitSucess} />}
     </>
   );
 };

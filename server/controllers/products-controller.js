@@ -1,12 +1,6 @@
-const { productsService } = require("../services");
+const { productsService } = require('../services');
 
-const {
-  fetchProducts,
-  fetchProductById,
-  createProduct,
-  modifyProduct,
-  removeProduct,
-} = productsService;
+const { fetchProducts, fetchProductById, createProduct, modifyProduct, removeProduct } = productsService;
 
 const getAllProducts = async (req, res, next) => {
   const products = await fetchProducts();
@@ -29,7 +23,7 @@ const deleteProduct = async (req, res, next) => {
 };
 
 module.exports = {
-    getAllProducts,
-    getProductById,
-    deleteProduct
-}
+  getAllProducts,
+  getProductById,
+  deleteProduct,
+};

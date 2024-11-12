@@ -1,27 +1,14 @@
-import { useRef, useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useRef, useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
-import LayoutHelmet from "../../layout/LayoutHelmet"
-import {
-  Form,
-  Input,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-  Typography,
-  Space,
-} from "antd";
+import LayoutHelmet from '../../layout/LayoutHelmet';
+import { Form, Input, Row, Col, Checkbox, Button, Typography, Space } from 'antd';
 
-import {
-  fetchCurrentUser,
-  isLoggedInUpdated,
-  selectCurrentUserStatus,
-} from "../../features/users/usersSlice";
-import { fetchCurrentCart, selectCart } from "../../features/cart/cartSlice";
-import apiAxios from "../../config/axiosConfig";
-import toast from "react-hot-toast";
+import { fetchCurrentUser, isLoggedInUpdated, selectCurrentUserStatus } from '../../features/users/usersSlice';
+import { fetchCurrentCart, selectCart } from '../../features/cart/cartSlice';
+import apiAxios from '../../config/axiosConfig';
+import toast from 'react-hot-toast';
 
 const formItemLayout = {
   labelCol: {
@@ -55,24 +42,24 @@ const tailFormItemLayout = {
   },
 };
 
-const RegisterForm = (props) => {
+const RegisterForm = props => {
   const [form] = Form.useForm();
   const { Title } = Typography;
 
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [errorMsg, setErrorMsg] = useState("");
-  const [SignupMsg, setSignupMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
+  const [SignupMsg, setSignupMsg] = useState('');
   const [isLoginDone, setIsLoginDone] = useState(false);
   const userStatus = useSelector(selectCurrentUserStatus);
   const cartContents = useSelector(selectCart);
 
   // props.onSubmit();
 
-  const onFinish = async (data) => {
+  const onFinish = async data => {
     try {
-      const signupResponse = await apiAxios.post("/auth/signup", {
+      const signupResponse = await apiAxios.post('/auth/signup', {
         email: data.email,
         password: data.password,
         first_name: data.firstName,
@@ -84,10 +71,10 @@ const RegisterForm = (props) => {
         country: data.country,
       });
       if (signupResponse.status === 201) {
-        setSignupMsg("User Sign-up successful!");
+        setSignupMsg('User Sign-up successful!');
         // Redirect to submitsucess
         const loginResponse = await apiAxios.post(
-          "/auth/login",
+          '/auth/login',
           {
             email: data.email,
             password: data.password,
@@ -110,14 +97,14 @@ const RegisterForm = (props) => {
       } else if (err.request) {
         console.log(err.request.data);
       } else {
-        console.log("An error occured creating account and/or logging in.");
+        console.log('An error occured creating account and/or logging in.');
       }
     }
   };
 
   //When login data is fetched, redirect to Register success page
   useEffect(() => {
-    if (userStatus === "succeeded" && isLoginDone) {
+    if (userStatus === 'succeeded' && isLoginDone) {
       props.onSubmit();
     }
   }, [userStatus, isLoginDone]);
@@ -128,16 +115,10 @@ const RegisterForm = (props) => {
         <div class="container flex items-center justify-center flex-1 h-full mx-auto">
           <div class="w-full max-w-lg">
             <div class="leading-loose">
-              <div
-                className="max-w-lg p-5 mr-10 bg-gray-400 bg-opacity-60 rounded shadow-xl"
-                style={{ textAlign: "center" }}
-              >
-                <div
-                  className=" text-white"
-                  style={{ textAlign: "center", color: "white" }}
-                >
+              <div className="max-w-lg p-5 mr-10 bg-gray-400 bg-opacity-60 rounded shadow-xl" style={{ textAlign: 'center' }}>
+                <div className=" text-white" style={{ textAlign: 'center', color: 'white' }}>
                   <Space direction="vertical">
-                    <Title level={2} style={{ textAlign: "center" }}>
+                    <Title level={2} style={{ textAlign: 'center' }}>
                       Register
                     </Title>
                   </Space>
@@ -153,16 +134,16 @@ const RegisterForm = (props) => {
                 >
                   <Form.Item
                     name="email"
-                    label={<label style={{ color: "black" }}>Email</label>}
+                    label={<label style={{ color: 'black' }}>Email</label>}
                     // label="E-mail"
                     rules={[
                       {
-                        type: "email",
-                        message: "The input is not valid E-mail!",
+                        type: 'email',
+                        message: 'The input is not valid E-mail!',
                       },
                       {
                         required: true,
-                        message: "Please input your E-mail!",
+                        message: 'Please input your E-mail!',
                       },
                     ]}
                   >
@@ -175,7 +156,7 @@ const RegisterForm = (props) => {
                     rules={[
                       {
                         required: true,
-                        message: "Please input your password!",
+                        message: 'Please input your password!',
                       },
                     ]}
                     hasFeedback
@@ -186,24 +167,20 @@ const RegisterForm = (props) => {
                   <Form.Item
                     name="confirm"
                     label="Confirm Password"
-                    dependencies={["password"]}
+                    dependencies={['password']}
                     hasFeedback
                     rules={[
                       {
                         required: true,
-                        message: "Please confirm your password!",
+                        message: 'Please confirm your password!',
                       },
                       ({ getFieldValue }) => ({
                         validator(_, value) {
-                          if (!value || getFieldValue("password") === value) {
+                          if (!value || getFieldValue('password') === value) {
                             return Promise.resolve();
                           }
 
-                          return Promise.reject(
-                            new Error(
-                              "The two passwords that you entered do not match!"
-                            )
-                          );
+                          return Promise.reject(new Error('The two passwords that you entered do not match!'));
                         },
                       }),
                     ]}
@@ -218,7 +195,7 @@ const RegisterForm = (props) => {
                     rules={[
                       {
                         required: true,
-                        message: "Please input your firstname!",
+                        message: 'Please input your firstname!',
                         whitespace: true,
                       },
                     ]}
@@ -232,7 +209,7 @@ const RegisterForm = (props) => {
                     rules={[
                       {
                         required: true,
-                        message: "Please input your lastname!",
+                        message: 'Please input your lastname!',
                         whitespace: true,
                       },
                     ]}
@@ -246,7 +223,7 @@ const RegisterForm = (props) => {
                     rules={[
                       {
                         required: true,
-                        message: "Please input your address!",
+                        message: 'Please input your address!',
                         whitespace: true,
                       },
                     ]}
@@ -264,7 +241,7 @@ const RegisterForm = (props) => {
                     rules={[
                       {
                         required: true,
-                        message: "Max length is 6",
+                        message: 'Max length is 6',
                         max: 6,
                       },
                     ]}
@@ -278,7 +255,7 @@ const RegisterForm = (props) => {
                     rules={[
                       {
                         required: true,
-                        message: "Please input your city",
+                        message: 'Please input your city',
                       },
                     ]}
                   >
@@ -294,17 +271,12 @@ const RegisterForm = (props) => {
                     valuePropName="checked"
                     rules={[
                       {
-                        validator: (_, value) =>
-                          value
-                            ? Promise.resolve()
-                            : Promise.reject(
-                                new Error("Should accept agreement")
-                              ),
+                        validator: (_, value) => (value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement'))),
                       },
                     ]}
                     {...tailFormItemLayout}
                   >
-                    <Checkbox style={{ color: "black" }} >
+                    <Checkbox style={{ color: 'black' }}>
                       I have read the <a>agreement</a>
                     </Checkbox>
                   </Form.Item>

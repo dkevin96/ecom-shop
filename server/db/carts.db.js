@@ -1,4 +1,4 @@
-const { pool } = require("../config");
+const { pool } = require('../config');
 
 //Fetches all products in all carts
 const fetchCartsDb = async () => {
@@ -11,7 +11,7 @@ const fetchCartsDb = async () => {
 };
 
 //Fetches all products in a cart for a userId
-const fetchCartByIdDb = async (userId) => {
+const fetchCartByIdDb = async userId => {
   const res = await pool.query(
     ` SELECT  products.id, name, price, description, category, image_url, status, quantity FROM carts
       INNER JOIN cart_products ON carts.id = cart_products.cart_id
@@ -22,7 +22,7 @@ const fetchCartByIdDb = async (userId) => {
   return res.rows;
 };
 
-const createCartDb = async (userId) => {
+const createCartDb = async userId => {
   const text = `INSERT INTO carts(user_id)
                   VALUES($1) RETURNING id`;
   const values = [userId];
@@ -32,10 +32,8 @@ const createCartDb = async (userId) => {
 };
 
 //Removes a cart (needs to be empty)
-const removeCartDb = async (userId) => {
-  const res = await pool.query("DELETE FROM carts WHERE user_id = $1", [
-    userId,
-  ]);
+const removeCartDb = async userId => {
+  const res = await pool.query('DELETE FROM carts WHERE user_id = $1', [userId]);
   return res.rows[0];
 };
 
@@ -59,10 +57,7 @@ const modifyCartDb = async ({ cart_id, product_id, quantity }) => {
 
 //Removes a product from a cart
 const removeCartProductDb = async ({ cart_id, product_id }) => {
-  const res = await pool.query(
-    "DELETE FROM cart_products WHERE cart_id = $1 AND product_id = $2",
-    [cart_id, product_id]
-  );
+  const res = await pool.query('DELETE FROM cart_products WHERE cart_id = $1 AND product_id = $2', [cart_id, product_id]);
   return res.rows[0];
 };
 

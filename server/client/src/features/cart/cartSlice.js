@@ -1,73 +1,61 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import apiAxios from "../../config/axiosConfig";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import apiAxios from '../../config/axiosConfig';
 
-export const fetchCurrentCart = createAsyncThunk(
-  "cart/fetchCurrentCart",
-  async (loggedOutCart) => {
-    const response = await apiAxios.post("/carts/self", {
-      cart: loggedOutCart,
-    });
-    const cart = {};
-    response.data.forEach((cartProduct) => {
-      cart[cartProduct.product.id] = {
-        quantity: cartProduct.quantity,
-      };
-    });
-    return cart;
+export const fetchCurrentCart = createAsyncThunk('cart/fetchCurrentCart', async loggedOutCart => {
+  const response = await apiAxios.post('/carts/self', {
+    cart: loggedOutCart,
+  });
+  const cart = {};
+  response.data.forEach(cartProduct => {
+    cart[cartProduct.product.id] = {
+      quantity: cartProduct.quantity,
+    };
+  });
+  return cart;
+});
+
+export const addProductToCart = createAsyncThunk('cart/addProductToCart', async (cartProduct, { getState }) => {
+  if (getState().users.isLoggedIn) {
+    await apiAxios.post('/carts/self/product', cartProduct);
+    // const response = await apiAxios.post("/carts/self/product", cartProduct);
+    // // response.data la 1 array, xem o trog postman -> convert to object bang object assign: Object.assign({}, ['a','b','c']); // {0:"a", 1:"b", 2:"c"}
+    // const cart = Object.assign({}, response.data);
+    // // cart[0] la tai vi array return chi co 1 property
+    // return cart[0];
   }
-);
+  return cartProduct;
+});
 
-export const addProductToCart = createAsyncThunk(
-  "cart/addProductToCart",
-  async (cartProduct, { getState }) => {
-    if (getState().users.isLoggedIn) {
-      await apiAxios.post("/carts/self/product", cartProduct);
-      // const response = await apiAxios.post("/carts/self/product", cartProduct);
-      // // response.data la 1 array, xem o trog postman -> convert to object bang object assign: Object.assign({}, ['a','b','c']); // {0:"a", 1:"b", 2:"c"}
-      // const cart = Object.assign({}, response.data);
-      // // cart[0] la tai vi array return chi co 1 property
-      // return cart[0];
-    }
-    return cartProduct;
+export const removeProductFromCart = createAsyncThunk('cart/removeProductFromCart', async (product, { getState }) => {
+  if (getState().users.isLoggedIn) {
+    await apiAxios.delete('/carts/self/product', { data: product });
   }
-);
+  return product;
+});
 
-export const removeProductFromCart = createAsyncThunk(
-  "cart/removeProductFromCart",
-  async (product, { getState }) => {
-    if (getState().users.isLoggedIn) {
-      await apiAxios.delete("/carts/self/product", { data: product });
-    }
-    return product;
+export const changeProductQuantity = createAsyncThunk('cart/changeProductQuantity', async (product, { getState }) => {
+  if (getState().users.isLoggedIn) {
+    await apiAxios.put('/carts/self/product', product);
   }
-);
+  return product;
+});
 
-export const changeProductQuantity = createAsyncThunk(
-  "cart/changeProductQuantity",
-  async (product, { getState }) => {
-    if (getState().users.isLoggedIn) {
-      await apiAxios.put("/carts/self/product", product);
-    }
-    return product;
-  }
-);
-
-export const checkoutCart = createAsyncThunk("cart/checkoutCart", async () => {
-  const response = await apiAxios.post("/carts/self/checkout");
+export const checkoutCart = createAsyncThunk('cart/checkoutCart', async () => {
+  const response = await apiAxios.post('/carts/self/checkout');
   return response.data;
 });
 
 export const cartSlice = createSlice({
-  name: "cart",
+  name: 'cart',
   initialState: {
     cartProducts: {},
-    fetchCurrentCartStatus: "idle",
-    addProductToCartStatus: "idle",
-    removeProductFromCartStatus: "idle",
-    changeProductQuantityStatus: "idle",
-    checkoutCartStatus: "idle",
+    fetchCurrentCartStatus: 'idle',
+    addProductToCartStatus: 'idle',
+    removeProductFromCartStatus: 'idle',
+    changeProductQuantityStatus: 'idle',
+    checkoutCartStatus: 'idle',
     needsCheckoutRedirect: false,
-    productAddedMsg: "Slice: Product Added",
+    productAddedMsg: 'Slice: Product Added',
     showProductAddedMsg: false,
   },
   reducers: {
@@ -89,76 +77,66 @@ export const cartSlice = createSlice({
   },
   extraReducers: {
     [fetchCurrentCart.pending]: (state, action) => {
-      state.fetchCurrentCartStatus = "loading";
+      state.fetchCurrentCartStatus = 'loading';
     },
     [fetchCurrentCart.fulfilled]: (state, action) => {
-      state.fetchCurrentCartStatus = "succeeded";
+      state.fetchCurrentCartStatus = 'succeeded';
       state.cartProducts = action.payload;
     },
     [fetchCurrentCart.rejected]: (state, action) => {
-      state.fetchCurrentCartStatus = "failed";
+      state.fetchCurrentCartStatus = 'failed';
     },
     //Reducer for adding product to cart
     [addProductToCart.pending]: (state, action) => {
-      state.addProductToCartStatus = "loading";
+      state.addProductToCartStatus = 'loading';
     },
     [addProductToCart.fulfilled]: (state, action) => {
-      state.addProductToCartStatus = "succeeded";
+      state.addProductToCartStatus = 'succeeded';
       state.cartProducts[action.payload.product_id] = action.payload;
     },
     [addProductToCart.rejected]: (state, action) => {
-      state.addProductToCartStatus = "failed";
+      state.addProductToCartStatus = 'failed';
     },
     //Reducer for removing product from cart
     [removeProductFromCart.pending]: (state, action) => {
-      state.removeProductFromCartStatus = "loading";
+      state.removeProductFromCartStatus = 'loading';
     },
     [removeProductFromCart.fulfilled]: (state, action) => {
-      state.removeProductFromCartStatus = "succeeded";
+      state.removeProductFromCartStatus = 'succeeded';
       delete state.cartProducts[action.payload.product_id];
     },
     [removeProductFromCart.rejected]: (state, action) => {
-      state.removeProductFromCartStatus = "failed";
+      state.removeProductFromCartStatus = 'failed';
     },
     //Reducer for changing qty of a product in cart
     [changeProductQuantity.pending]: (state, action) => {
-      state.changeProductQuantityStatus = "loading";
+      state.changeProductQuantityStatus = 'loading';
     },
     [changeProductQuantity.fulfilled]: (state, action) => {
-      state.changeProductQuantityStatus = "succeeded";
-      state.cartProducts[action.payload.product_id].quantity =
-        action.payload.quantity;
+      state.changeProductQuantityStatus = 'succeeded';
+      state.cartProducts[action.payload.product_id].quantity = action.payload.quantity;
     },
     [changeProductQuantity.rejected]: (state, action) => {
-      state.changeProductQuantityStatus = "failed";
+      state.changeProductQuantityStatus = 'failed';
     },
     //Reducers for tracking status of order placement
     [checkoutCart.pending]: (state, action) => {
-      state.checkoutCartStatus = "loading";
+      state.checkoutCartStatus = 'loading';
     },
     [checkoutCart.fulfilled]: (state, action) => {
-      state.checkoutCartStatus = "succeeded";
+      state.checkoutCartStatus = 'succeeded';
     },
     [checkoutCart.rejected]: (state, action) => {
-      state.checkoutCartStatus = "failed";
+      state.checkoutCartStatus = 'failed';
     },
   },
 });
 
-export const {
-  cartProductsUpdated,
-  needsCheckoutRedirectUpdated,
-  productAddedMsgUpdated,
-  showProductAddedMsgUpdated,
-} = cartSlice.actions;
-export const selectCart = (state) => state.cart.cartProducts;
-export const selectNeedsCheckoutRedirect = (state) =>
-  state.cart.needsCheckoutRedirect;
-export const selectFetchCurrentCartStatus = (state) =>
-  state.cart.fetchCurrentCartStatus;
-export const selectCheckoutCartStatus = (state) =>
-  state.cart.checkoutCartStatus;
-export const selectProductAddedMsg = (state) => state.cart.productAddedMsg;
-export const selectShowProductAddedMsg = (state) =>
-  state.cart.showProductAddedMsg;
+export const { cartProductsUpdated, needsCheckoutRedirectUpdated, productAddedMsgUpdated, showProductAddedMsgUpdated } = cartSlice.actions;
+export const selectCart = state => state.cart.cartProducts;
+export const selectNeedsCheckoutRedirect = state => state.cart.needsCheckoutRedirect;
+export const selectFetchCurrentCartStatus = state => state.cart.fetchCurrentCartStatus;
+export const selectCheckoutCartStatus = state => state.cart.checkoutCartStatus;
+export const selectProductAddedMsg = state => state.cart.productAddedMsg;
+export const selectShowProductAddedMsg = state => state.cart.showProductAddedMsg;
 export default cartSlice.reducer;

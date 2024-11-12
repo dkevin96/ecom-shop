@@ -1,14 +1,7 @@
-const { cartsService, ordersService } = require("../services");
-const {
-  fetchCarts,
-  fetchCartById,
-  createProductInCart,
-  modifyCart,
-  removeCartProduct,
-} = cartsService;
+const { cartsService, ordersService } = require('../services');
+const { fetchCarts, fetchCartById, createProductInCart, modifyCart, removeCartProduct } = cartsService;
 
-const { createOrder, createProductInOrder, calculateOrderAmount } =
-  ordersService;
+const { createOrder, createProductInOrder, calculateOrderAmount } = ordersService;
 
 const getAllCarts = async (req, res, next) => {
   const carts = await fetchCarts();
@@ -26,7 +19,7 @@ const syncCartSelf = async (req, res, next) => {
   console.log(loggedOutCart);
   for (const productId in loggedOutCart) {
     // if not found dbcart.some return false
-    if (!dbCart.some((item) => item.product.id == productId)) {
+    if (!dbCart.some(item => item.product.id == productId)) {
       const cartProduct = {
         cart_id: cartId,
         product_id: productId,
@@ -92,7 +85,7 @@ const checkoutCart = async (req, res, next) => {
   // return: [{product: {obj}, quantity: int}, {}]
   const cart = await fetchCartById(user_id);
   if (!cart.length) {
-    res.status(500).send("Cart is Empty");
+    res.status(500).send('Cart is Empty');
     next();
   }
   // Create new order and return the id for that order
@@ -101,7 +94,7 @@ const checkoutCart = async (req, res, next) => {
   // Calculate
   //Move all cart items to order
   await Promise.all(
-    cart.map(async (item) => {
+    cart.map(async item => {
       await createProductInOrder({
         order_id: orderId,
         product_id: item.product.id,
@@ -116,9 +109,7 @@ const checkoutCart = async (req, res, next) => {
   );
 
   // If move sucessfully
-  res
-    .status(201)
-    .json({ order_id: orderId, message: "Create order successfully" });
+  res.status(201).json({ order_id: orderId, message: 'Create order successfully' });
   next();
 };
 

@@ -1,19 +1,14 @@
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { Button, TableCell } from "@windmill/react-ui";
+import { Button, TableCell } from '@windmill/react-ui';
 
-import {
-  removeProductFromCart,
-  changeProductQuantity,
-} from "../../features/cart/cartSlice";
+import { removeProductFromCart, changeProductQuantity } from '../../features/cart/cartSlice';
 
 const CartProduct = ({ cartItem, quantity }) => {
   const [productQty, setProductQty] = useState(quantity);
-  const [subTotalPrice, setsubTotalPrice] = useState(
-    productQty * cartItem.price
-  );
-  
+  const [subTotalPrice, setsubTotalPrice] = useState(productQty * cartItem.price);
+
   const dispatch = useDispatch();
 
   // console.log(cartItem);
@@ -43,30 +38,17 @@ const CartProduct = ({ cartItem, quantity }) => {
 
   return (
     <>
-        <TableCell>
-        <img
-          className=" hidden sm:block max-h-24 rounded"
-          src={cartItem.image_url}
-          alt=""
-        />
-        </TableCell>
+      <TableCell>
+        <img className=" hidden sm:block max-h-24 rounded" src={cartItem.image_url} alt="" />
+      </TableCell>
       <TableCell>{cartItem.name}</TableCell>
       <TableCell>${cartItem.price}</TableCell>
       <TableCell className="flex items-center mt-8">
-        <Button
-          size="small"
-          layout="outline"
-          disabled={productQty === 1}
-          onClick={() => setProductQty(productQty - 1)}
-        >
+        <Button size="small" layout="outline" disabled={productQty === 1} onClick={() => setProductQty(productQty - 1)}>
           -
         </Button>
         <span className="mr-2 ml-2">{productQty}</span>
-        <Button
-          size="small"
-          layout="outline"
-          onClick={() => setProductQty(productQty + 1)}
-        >
+        <Button size="small" layout="outline" onClick={() => setProductQty(productQty + 1)}>
           +
         </Button>
       </TableCell>

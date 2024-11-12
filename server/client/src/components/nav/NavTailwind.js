@@ -1,37 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "./Nav.less";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import './Nav.less';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUserCircle,
-  faBolt,
-  faBars,
-} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserCircle, faBolt, faBars } from '@fortawesome/free-solid-svg-icons';
 // import { Anchor, Drawer, Button } from "antd";
-import { Badge, Button, Dropdown, DropdownItem } from "@windmill/react-ui";
-import { LogOut, ShoppingCart, User } from "react-feather";
-import { Transition } from "@windmill/react-ui";
-import toast from "react-hot-toast";
+import { Badge, Button, Dropdown, DropdownItem } from '@windmill/react-ui';
+import { LogOut, ShoppingCart, User } from 'react-feather';
+import { Transition } from '@windmill/react-ui';
+import toast from 'react-hot-toast';
 
-import apiAxios from "../../config/axiosConfig";
+import apiAxios from '../../config/axiosConfig';
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 import {
   selectCurrentUser,
   isLoggedInUpdated,
   currentUserUpdated,
   currentUserStatusUpdated,
   selectIsLoggedIn,
-} from "../../features/users/usersSlice";
+} from '../../features/users/usersSlice';
 import {
   cartProductsUpdated,
   selectCart,
   removeProductFromCart,
   selectFetchCurrentCartStatus,
   fetchCurrentCart,
-} from "../../features/cart/cartSlice";
-import { customerOrdersUpdated } from "../../features/orders/ordersSlice";
+} from '../../features/cart/cartSlice';
+import { customerOrdersUpdated } from '../../features/orders/ordersSlice';
 
 function NavTailwind() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -60,19 +56,16 @@ function NavTailwind() {
   const cart = useSelector(selectCart);
 
   // cart is object -> cart[keyname] return the key of property
-  const nrCartItems = Object.keys(cart).reduce(
-    (accumulator, keyname) => accumulator + cart[keyname].quantity,
-    0
-  );
+  const nrCartItems = Object.keys(cart).reduce((accumulator, keyname) => accumulator + cart[keyname].quantity, 0);
   const handleLogout = async () => {
     try {
       await dispatch(isLoggedInUpdated(false));
       await dispatch(currentUserUpdated({})); //Clear current user info from session
       await dispatch(cartProductsUpdated({})); //Clear cart
       await dispatch(customerOrdersUpdated({}));
-      await dispatch(currentUserStatusUpdated("idle"));
-      await apiAxios.post("/auth/logout");
-      toast.success("Log out successfully");
+      await dispatch(currentUserStatusUpdated('idle'));
+      await apiAxios.post('/auth/logout');
+      toast.success('Log out successfully');
       // console.log(cart[11]);
     } catch (err) {
       console.log(err);
@@ -85,16 +78,9 @@ function NavTailwind() {
 
   return (
     <nav className="flex items-center justify-between px-2 lg:px-36 py-2 shadow-lg fixed w-full bg-white top-0 z-10">
-      <Link
-        to="/"
-        className="text-gray-700 text-2xl font-bold dark:text-gray-400"
-      >
+      <Link to="/" className="text-gray-700 text-2xl font-bold dark:text-gray-400">
         <div className="logo">
-          <FontAwesomeIcon
-            className="fas fa-bolt"
-            icon={faBolt}
-            style={{ color: "#1DA57A" }}
-          />
+          <FontAwesomeIcon className="fas fa-bolt" icon={faBolt} style={{ color: '#1DA57A' }} />
           <span> Bolt</span>
         </div>
       </Link>
@@ -109,7 +95,7 @@ function NavTailwind() {
                   <ShoppingCart className="lg:hidden" />
                   <Badge className="ml-2" type="danger">
                     {nrCartItems}
-                  </Badge>{" "}
+                  </Badge>{' '}
                 </Button>
               </Link>
             </li>
@@ -133,15 +119,12 @@ function NavTailwind() {
                   <ShoppingCart />
                   <Badge className="ml-2" type="danger">
                     {nrCartItems}
-                  </Badge>{" "}
+                  </Badge>{' '}
                 </Button>
               </Link>
             </li>
             <li className="relative">
-              <Button
-                layout="link"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              >
+              <Button layout="link" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                 <span className="lg:block hidden">Account</span>
                 {/* <User className="lg:hidden" /> */}
                 <User />
@@ -185,11 +168,7 @@ function NavTailwind() {
                     </Link>
                   </DropdownItem>
                   <DropdownItem tag="a" className="border-t">
-                    <Link
-                      className="w-full"
-                      onClick={() => handleLogout()}
-                      to="/login"
-                    >
+                    <Link className="w-full" onClick={() => handleLogout()} to="/login">
                       <Button iconRight={LogOut} block>
                         Logout
                       </Button>

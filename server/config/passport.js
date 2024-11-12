@@ -1,45 +1,38 @@
-require("dotenv").config();
-const passport = require("passport");
-const bcrypt = require("bcrypt");
+require('dotenv').config();
+const passport = require('passport');
+const bcrypt = require('bcrypt');
 
-const LocalStrategy = require("passport-local").Strategy;
-const JWTstrategy = require("passport-jwt").Strategy;
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const FacebookStrategy = require("passport-facebook").Strategy;
-const ExtractJWT = require("passport-jwt").ExtractJwt;
+const LocalStrategy = require('passport-local').Strategy;
+const JWTstrategy = require('passport-jwt').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
+const ExtractJWT = require('passport-jwt').ExtractJwt;
 
-const { usersService, cartsService } = require("../services");
-const {
-  createUser,
-  fetchUserByEmail,
-  fetchUserByGoogleId,
-  addGoogleIdUser,
-  fetchUserByFacebookId,
-  addFacebookIdUser,
-} = usersService;
+const { usersService, cartsService } = require('../services');
+const { createUser, fetchUserByEmail, fetchUserByGoogleId, addGoogleIdUser, fetchUserByFacebookId, addFacebookIdUser } = usersService;
 const { createCart } = cartsService;
 
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = process.env.NODE_ENV === 'production';
 
 passport.use(
-  "login",
+  'login',
   new LocalStrategy(
     {
-      usernameField: "email",
-      passwordField: "password",
+      usernameField: 'email',
+      passwordField: 'password',
     },
     async (email, password, done) => {
       const user = await usersService.fetchUserByEmail(email);
       if (!user) {
-        return done(null, false, { message: "Invalid User!" });
+        return done(null, false, { message: 'Invalid User!' });
       }
 
       const match = await bcrypt.compare(password, user.pwd_hash);
       if (!match) {
-        return done(null, false, { message: "Invalid email or password!" });
+        return done(null, false, { message: 'Invalid email or password!' });
       }
 
-      return done(null, user, { message: "Logged in Successfully" });
+      return done(null, user, { message: 'Logged in Successfully' });
     }
   )
 );
@@ -135,17 +128,17 @@ passport.use(
 
 // Checks the A_JWT cookie
 passport.use(
-  "jwt-customer",
+  'jwt-customer',
   new JWTstrategy(
     {
       secretOrKey: process.env.JWT_KEY,
       jwtFromRequest: ExtractJWT.fromExtractors([
-        (req) => {
+        req => {
           let token = null;
           if (req && req.cookies) {
-            token = req.cookies["A_JWT"];
+            token = req.cookies['A_JWT'];
           } else {
-            console.log("no cookie");
+            console.log('no cookie');
           }
           return token;
         },
@@ -163,22 +156,22 @@ passport.use(
 
 //   //Checks the A_JWT cookie and if a user has user_role = admin
 passport.use(
-  "jwt-admin",
+  'jwt-admin',
   new JWTstrategy(
     {
       secretOrKey: process.env.JWT_KEY,
       jwtFromRequest: ExtractJWT.fromExtractors([
-        (req) => {
+        req => {
           let token = null;
           if (req && req.cookies) {
-            token = req.cookies["A_JWT"];
+            token = req.cookies['A_JWT'];
           }
           return token;
         },
       ]),
     },
     async (token, done) => {
-      if (token.user.role !== "admin") {
+      if (token.user.role !== 'admin') {
         //Reject if not admin
         return done(null, false);
       }

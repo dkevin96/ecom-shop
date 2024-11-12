@@ -1,27 +1,19 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import productsReducer from "./features/products/productsSlice";
-import usersReducer from "./features/users/usersSlice";
-import cartReducer from "./features/cart/cartSlice";
-import ordersReducer from "./features/orders/ordersSlice";
-import {
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import productsReducer from './features/products/productsSlice';
+import usersReducer from './features/users/usersSlice';
+import cartReducer from './features/cart/cartSlice';
+import ordersReducer from './features/orders/ordersSlice';
+import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 
-import storage from "redux-persist/lib/storage";
+import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage,
 };
 
 const userpersistConfig = {
-  key: "user",
+  key: 'user',
   storage,
 };
 const persistedUserReducer = persistReducer(userpersistConfig, usersReducer);

@@ -1,33 +1,16 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import {
-  TableContainer,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableCell,
-  TableFooter,
-  Button,
-} from "@windmill/react-ui";
-import { ShoppingCart } from "react-feather";
+import { TableContainer, Table, TableHeader, TableBody, TableRow, TableCell, TableFooter, Button } from '@windmill/react-ui';
+import { ShoppingCart } from 'react-feather';
 
-import CartProduct from "../components/cart/CartProduct";
-import Spinner from "../components/spinner/Spinner";
+import CartProduct from '../components/cart/CartProduct';
+import Spinner from '../components/spinner/Spinner';
 
-import {
-  selectCart,
-  needsCheckoutRedirectUpdated,
-  fetchCurrentCart,
-} from "../features/cart/cartSlice";
-import {
-  selectAllProducts,
-  fetchAllProducts,
-  selectFetchAllProductsStatus,
-} from "../features/products/productsSlice";
+import { selectCart, needsCheckoutRedirectUpdated, fetchCurrentCart } from '../features/cart/cartSlice';
+import { selectAllProducts, fetchAllProducts, selectFetchAllProductsStatus } from '../features/products/productsSlice';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -41,15 +24,13 @@ const Cart = () => {
 
   const handleCheckout = () => {
     dispatch(needsCheckoutRedirectUpdated(true));
-    history.push("/checkout");
+    history.push('/checkout');
   };
 
   useEffect(() => {
-    if (fetchStatus === "succeeded") {
+    if (fetchStatus === 'succeeded') {
       const totalPriceTemp = Object.keys(cartContents).reduce(
-        (acc, keyName) =>
-          acc +
-          parseFloat(products[keyName].price) * cartContents[keyName].quantity,
+        (acc, keyName) => acc + parseFloat(products[keyName].price) * cartContents[keyName].quantity,
         0
       );
       setTotalPrice(totalPriceTemp);
@@ -60,9 +41,7 @@ const Cart = () => {
     return (
       <div className="mt-10">
         <div className="grid justify-center">
-          <h1 className="my-10 text-center text-4xl font-semibold">
-            Shopping Cart
-          </h1>
+          <h1 className="my-10 text-center text-4xl font-semibold">Shopping Cart</h1>
           <div className="h-full flex flex-col justify-center items-center">
             <ShoppingCart size={150} />
             <p>Cart is empty</p>
@@ -73,7 +52,7 @@ const Cart = () => {
         </div>
       </div>
     );
-  } else if (fetchStatus !== "succeeded") {
+  } else if (fetchStatus !== 'succeeded') {
     return (
       <>
         <Spinner size={100} loading />
@@ -83,9 +62,7 @@ const Cart = () => {
     return (
       <div className="min-h-screen flex flex-col">
         <div className="text-gray-700 mt-16 mx-auto px-2 lg:px-56 flex-grow h-full w-full">
-          <h1 className="my-10 text-center text-4xl font-semibold">
-            Shopping Cart
-          </h1>
+          <h1 className="my-10 text-center text-4xl font-semibold">Shopping Cart</h1>
           <TableContainer>
             <Table>
               <TableHeader>
@@ -99,13 +76,9 @@ const Cart = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {Object.keys(cartContents).map((keyName) => (
+                {Object.keys(cartContents).map(keyName => (
                   <TableRow>
-                    <CartProduct
-                      key={keyName}
-                      cartItem={products[keyName]}
-                      quantity={cartContents[keyName].quantity}
-                    />
+                    <CartProduct key={keyName} cartItem={products[keyName]} quantity={cartContents[keyName].quantity} />
                   </TableRow>
                 ))}
               </TableBody>
@@ -115,7 +88,7 @@ const Cart = () => {
               <Button
                 tag={Link}
                 to={{
-                  pathname: "/checkout",
+                  pathname: '/checkout',
                 }}
               >
                 Checkout

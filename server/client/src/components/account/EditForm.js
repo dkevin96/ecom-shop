@@ -1,37 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import apiAxios from "../../config/axiosConfig";
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import apiAxios from '../../config/axiosConfig';
 
 // import { Button, HelperText, Input, Label } from "@windmill/react-ui";
-import { Button as WindmillButton } from "@windmill/react-ui";
-import toast from "react-hot-toast";
-import PulseLoader from "react-spinners/PulseLoader";
-import { Edit2 } from "react-feather";
+import { Button as WindmillButton } from '@windmill/react-ui';
+import toast from 'react-hot-toast';
+import PulseLoader from 'react-spinners/PulseLoader';
+import { Edit2 } from 'react-feather';
 
-import {
-  Form,
-  Input,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-  Typography,
-  Space,
-} from "antd";
+import { Form, Input, Row, Col, Checkbox, Button, Typography, Space } from 'antd';
 
 const EditForm = ({ user, setshowEditForm }) => {
   const [form] = Form.useForm();
   const [isSaving, setIsSaving] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
 
   function timeout(int) {
-    return new Promise((res) => setTimeout(res, int));
+    return new Promise(res => setTimeout(res, int));
   }
 
-  const onFinish = async (data) => {
+  const onFinish = async data => {
     setIsSaving(true);
     try {
-      const EditResponse = await apiAxios.put("/users/self", {
+      const EditResponse = await apiAxios.put('/users/self', {
         email: data.email,
         password: data.password,
         first_name: data.firstName,
@@ -45,7 +36,7 @@ const EditForm = ({ user, setshowEditForm }) => {
 
       await timeout(5);
       if (EditResponse.status === 200) {
-        toast.success("Edit successfully");
+        toast.success('Edit successfully');
 
         setIsSaving(false);
       }
@@ -56,7 +47,7 @@ const EditForm = ({ user, setshowEditForm }) => {
       } else if (err.request) {
         console.log(err.request.data);
       } else {
-        console.log("An error occured while editing account.");
+        console.log('An error occured while editing account.');
       }
     }
   };
@@ -65,13 +56,7 @@ const EditForm = ({ user, setshowEditForm }) => {
     <div className="grid place-items-center pt-4 mt-10">
       <div className="w-full lg:w-1/2 shadow-md overflow-hidden sm:rounded-lg">
         <div className="px-4 py-5 sm:px-6">
-          <Form
-            style={{ width: "80%", textAlign: "center", paddingLeft: 30 }}
-            form={form}
-            name="register"
-            onFinish={onFinish}
-            scrollToFirstError
-          >
+          <Form style={{ width: '80%', textAlign: 'center', paddingLeft: 30 }} form={form} name="register" onFinish={onFinish} scrollToFirstError>
             <Form.Item
               name="firstName"
               label="Firstname"
@@ -80,12 +65,12 @@ const EditForm = ({ user, setshowEditForm }) => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your firstname!",
+                  message: 'Please input your firstname!',
                   whitespace: true,
                 },
               ]}
             >
-              <Input/>
+              <Input />
             </Form.Item>
 
             <Form.Item
@@ -95,7 +80,7 @@ const EditForm = ({ user, setshowEditForm }) => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your lastname!",
+                  message: 'Please input your lastname!',
                   whitespace: true,
                 },
               ]}
@@ -109,12 +94,12 @@ const EditForm = ({ user, setshowEditForm }) => {
               initialValue={user.email}
               rules={[
                 {
-                  type: "email",
-                  message: "The input is not valid E-mail!",
+                  type: 'email',
+                  message: 'The input is not valid E-mail!',
                 },
                 {
                   required: true,
-                  message: "Please input your E-mail!",
+                  message: 'Please input your E-mail!',
                 },
               ]}
             >
@@ -127,7 +112,7 @@ const EditForm = ({ user, setshowEditForm }) => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your password!",
+                  message: 'Please input your password!',
                 },
               ]}
               hasFeedback
@@ -138,24 +123,20 @@ const EditForm = ({ user, setshowEditForm }) => {
             <Form.Item
               name="confirm"
               label="Confirm Password"
-              dependencies={["password"]}
+              dependencies={['password']}
               hasFeedback
               rules={[
                 {
                   required: true,
-                  message: "Please confirm your password!",
+                  message: 'Please confirm your password!',
                 },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
+                    if (!value || getFieldValue('password') === value) {
                       return Promise.resolve();
                     }
 
-                    return Promise.reject(
-                      new Error(
-                        "The two passwords that you entered do not match!"
-                      )
-                    );
+                    return Promise.reject(new Error('The two passwords that you entered do not match!'));
                   },
                 }),
               ]}
@@ -170,7 +151,7 @@ const EditForm = ({ user, setshowEditForm }) => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your address!",
+                  message: 'Please input your address!',
                   whitespace: true,
                 },
               ]}
@@ -178,11 +159,7 @@ const EditForm = ({ user, setshowEditForm }) => {
               <Input />
             </Form.Item>
 
-            <Form.Item
-              name="address2"
-              label="Address Line 2"
-              initialValue={user.address2}
-            >
+            <Form.Item name="address2" label="Address Line 2" initialValue={user.address2}>
               <Input />
             </Form.Item>
 
@@ -193,7 +170,7 @@ const EditForm = ({ user, setshowEditForm }) => {
               rules={[
                 {
                   required: true,
-                  message: "Max length is 6",
+                  message: 'Max length is 6',
                   max: 6,
                 },
               ]}
@@ -208,34 +185,23 @@ const EditForm = ({ user, setshowEditForm }) => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your city",
+                  message: 'Please input your city',
                 },
               ]}
             >
               <Input />
             </Form.Item>
 
-            <Form.Item
-              name="country"
-              label="Country"
-              initialValue={user.country}
-            >
+            <Form.Item name="country" label="Country" initialValue={user.country}>
               <Input />
             </Form.Item>
 
             <div className="px-4 py-5 space-x-4">
               <Button type="primary" htmlType="submit" disabled={isSaving}>
-                {isSaving ? (
-                  <PulseLoader color={"#178f5b"} size={10} loading={isSaving} />
-                ) : (
-                  "Save"
-                )}
+                {isSaving ? <PulseLoader color={'#178f5b'} size={10} loading={isSaving} /> : 'Save'}
               </Button>
 
-              <WindmillButton
-                onClick={() => setshowEditForm(false)}
-                layout="outline"
-              >
+              <WindmillButton onClick={() => setshowEditForm(false)} layout="outline">
                 Cancel
               </WindmillButton>
             </div>

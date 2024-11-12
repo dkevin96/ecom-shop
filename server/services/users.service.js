@@ -9,47 +9,47 @@ const {
   createUserDb,
   modifyUserDb,
   removeUserDb,
-} = require("../db/users.db");
+} = require('../db/users.db');
 
 const fetchAllUsers = async () => {
   return await fetchUsersDb();
 };
 
-const fetchUserById = async (id) => {
+const fetchUserById = async id => {
   return await fetchUserByIdDb(id);
 };
 
-const fetchUserByEmail = async (email) => {
+const fetchUserByEmail = async email => {
   return await fetchUserByEmailDb(email);
 };
 
 // GOOLE OATH LOGIN
-const fetchUserByGoogleId = async (id) => {
+const fetchUserByGoogleId = async id => {
   return await fetchUserByGoogleIdDb(id);
 };
 
-const addGoogleIdUser = async (user) => {
+const addGoogleIdUser = async user => {
   return await addGoogleIdUserDb(user);
 };
 
 // FACEBOOK OATH LOGIN
-const fetchUserByFacebookId = async (id) => {
+const fetchUserByFacebookId = async id => {
   return await fetchUserByFacebookIdDb(id);
 };
 
-const addFacebookIdUser = async (user) => {
+const addFacebookIdUser = async user => {
   return await addFacebookIdUserDb(user);
 };
 
-const createUser = async (user) => {
+const createUser = async user => {
   return await createUserDb(user);
 };
 
-const modifyUser = async (user) => {
+const modifyUser = async user => {
   return await modifyUserDb(user);
 };
 
-const removeUser = async (id) => {
+const removeUser = async id => {
   return await removeUserDb(id);
 };
 

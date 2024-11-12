@@ -1,18 +1,13 @@
-import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { Link, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form, Input, Button, Image, Row } from "antd";
-import toast, { Toaster } from "react-hot-toast";
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Form, Input, Button, Image, Row } from 'antd';
+import toast, { Toaster } from 'react-hot-toast';
 
-import {
-  fetchCurrentUser,
-  isLoggedInUpdated,
-  selectIsLoggedIn,
-  selectCurrentUserStatus,
-} from "../../features/users/usersSlice";
+import { fetchCurrentUser, isLoggedInUpdated, selectIsLoggedIn, selectCurrentUserStatus } from '../../features/users/usersSlice';
 
 import {
   selectCart,
@@ -20,14 +15,14 @@ import {
   selectNeedsCheckoutRedirect,
   needsCheckoutRedirectUpdated,
   selectFetchCurrentCartStatus,
-} from "../../features/cart/cartSlice";
+} from '../../features/cart/cartSlice';
 
 // import {
 //   fetchCustomerOrders,
 //   selectFetchCustomerOrdersStatus,
 // } from "../../features/orders/ordersSlice";
 
-import apiAxios from "../../config/axiosConfig";
+import apiAxios from '../../config/axiosConfig';
 
 const formItemLayout = {
   labelCol: {
@@ -66,7 +61,7 @@ const Login = () => {
   const history = useHistory();
 
   const [showFailedLogin, setShowFailedLogin] = useState(false);
-  const [loginMsg, setLoginMsg] = useState("");
+  const [loginMsg, setLoginMsg] = useState('');
 
   const userStatus = useSelector(selectCurrentUserStatus);
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -81,10 +76,10 @@ const Login = () => {
   // const googleURL = "/api/auth/google";
   // const facebookURL = "/api/auth/facebook";
 
-  const onFinish = async (data) => {
+  const onFinish = async data => {
     try {
       const response = await apiAxios.post(
-        "/auth/login",
+        '/auth/login',
         {
           email: data.email,
           password: data.password,
@@ -101,9 +96,7 @@ const Login = () => {
         // const message = response.data.message;
       }
     } catch (error) {
-      const errorMsg = error.response.data.error
-        ? error.response.data.error.message
-        : "An error occurred while checking credentials.";
+      const errorMsg = error.response.data.error ? error.response.data.error.message : 'An error occurred while checking credentials.';
       setLoginMsg(errorMsg);
       setShowFailedLogin(true);
     }
@@ -124,20 +117,20 @@ const Login = () => {
   //When login data is fetched, redirect to main site or checkout
   useEffect(() => {
     if (
-      userStatus === "succeeded" &&
+      userStatus === 'succeeded' &&
       isLoggedIn &&
-      fetchCurrentCartStatus === "succeeded"
+      fetchCurrentCartStatus === 'succeeded'
       // && fetchCustomerOrdersStatus === "succeeded"
     ) {
-      toast("Log in successfully.", {
-        icon: "👏",
+      toast('Log in successfully.', {
+        icon: '👏',
       });
       //Check if we need to redirect back to checkout process
       if (needsCheckoutRedirect) {
         dispatch(needsCheckoutRedirectUpdated(false));
-        history.push("/checkout");
+        history.push('/checkout');
       } else {
-        history.push("/");
+        history.push('/');
       }
     }
   }, [
@@ -151,8 +144,8 @@ const Login = () => {
   ]);
 
   useEffect(() => {
-    if (userStatus === "failed") {
-      setLoginMsg("An error occurred connecting to the server.");
+    if (userStatus === 'failed') {
+      setLoginMsg('An error occurred connecting to the server.');
     }
   }, [userStatus]);
 
@@ -162,20 +155,17 @@ const Login = () => {
         <div className="container flex items-center justify-center flex-1 h-full mx-auto">
           <div className="w-full max-w-lg">
             <div className="leading-loose">
-              <h1 style={{ textAlign: "center" }}>Sign in required</h1>
+              <h1 style={{ textAlign: 'center' }}>Sign in required</h1>
               <a href="https://www.freepik.com/vectors/computer"></a>
               {showFailedLogin ? (
-                <p className="text-sm text-center" style={{ color: "red" }}>
+                <p className="text-sm text-center" style={{ color: 'red' }}>
                   {loginMsg}
                 </p>
               ) : (
                 <p></p>
               )}
 
-              <div
-                className="max-w-sm p-10 m-auto bg-gray-200 bg-opacity-50 rounded shadow-xl"
-                style={{ textAlign: "center" }}
-              >
+              <div className="max-w-sm p-10 m-auto bg-gray-200 bg-opacity-50 rounded shadow-xl" style={{ textAlign: 'center' }}>
                 {/* <div className="flex gap-4 item-center">
                   <a href={facebookURL}>
                     <button
@@ -229,8 +219,8 @@ const Login = () => {
                     rules={[
                       {
                         required: true,
-                        type: "email",
-                        message: "The input is not valid E-mail!",
+                        type: 'email',
+                        message: 'The input is not valid E-mail!',
                       },
                     ]}
                   >
@@ -243,7 +233,7 @@ const Login = () => {
                     rules={[
                       {
                         required: true,
-                        message: "Please input your password!",
+                        message: 'Please input your password!',
                       },
                     ]}
                   >
@@ -259,7 +249,7 @@ const Login = () => {
                   </Form.Item>
                 </Form>
                 <p className="text-sm text-center">
-                  Don't have an account?{" "}
+                  Don't have an account?{' '}
                   <a className="font-bold" href="/register">
                     Sign Up
                   </a>

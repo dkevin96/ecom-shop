@@ -1,14 +1,11 @@
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
-import {
-  selectCurrentUser,
-  selectCurrentUserStatus,
-} from "../features/users/usersSlice";
+import { selectCurrentUser, selectCurrentUserStatus } from '../features/users/usersSlice';
 
-import AccountForm from "../components/account/AccountForm";
-import EditForm from "../components/account/EditForm";
-import LayoutHelmet from "../layout/LayoutHelmet";
+import AccountForm from '../components/account/AccountForm';
+import EditForm from '../components/account/EditForm';
+import LayoutHelmet from '../layout/LayoutHelmet';
 
 const Account = () => {
   const user = useSelector(selectCurrentUser);
@@ -16,12 +13,8 @@ const Account = () => {
   const [showEditForm, setshowEditForm] = useState(false);
 
   return (
-    <LayoutHelmet title="Account" loading={userStatus !== "succeeded"} >
-      {showEditForm ? (
-        <EditForm user={user} setshowEditForm={setshowEditForm} />
-      ) : (
-        <AccountForm user={user} setshowEditForm={setshowEditForm} />
-      )}
+    <LayoutHelmet title="Account" loading={userStatus !== 'succeeded'}>
+      {showEditForm ? <EditForm user={user} setshowEditForm={setshowEditForm} /> : <AccountForm user={user} setshowEditForm={setshowEditForm} />}
     </LayoutHelmet>
   );
 };

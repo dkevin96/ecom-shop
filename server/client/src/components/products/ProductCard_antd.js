@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   addProductToCart,
@@ -8,10 +8,10 @@ import {
   productAddedMsgUpdated,
   showProductAddedMsgUpdated,
   removeProductFromCart,
-} from "../../features/cart/cartSlice";
+} from '../../features/cart/cartSlice';
 
-import { Card, Col, Row, Button, Divider, notification } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { Card, Col, Row, Button, Divider, notification } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 
 const ProductCard_antd = ({ product }) => {
   const dispatch = useDispatch();
@@ -23,13 +23,13 @@ const ProductCard_antd = ({ product }) => {
   const openNotification = () => {
     notification.open({
       style: {
-        color: "#1DA57A",
-        fontWeight: "bold",
+        color: '#1DA57A',
+        fontWeight: 'bold',
         opacity: 0.9,
-        cursor: "pointer",
+        cursor: 'pointer',
       },
-      placement: "bottomRight",
-      message: "Item Added",
+      placement: 'bottomRight',
+      message: 'Item Added',
       description: `${product.name} is added to your cart.`,
       duration: 2,
     });
@@ -61,7 +61,7 @@ const ProductCard_antd = ({ product }) => {
       dispatch(productAddedMsgUpdated(`Added ${product.name} to Cart`));
       dispatch(showProductAddedMsgUpdated(true));
     } catch (err) {
-      console.log("Failed to add to cart: ", err);
+      console.log('Failed to add to cart: ', err);
     }
   };
 
@@ -95,10 +95,10 @@ const ProductCard_antd = ({ product }) => {
             cover={
               <img
                 style={{
-                  height: "320px",
-                  width: "100%",
-                  objectFit: "cover",
-                  objectPosition: "center"
+                  height: '320px',
+                  width: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
                 }}
                 alt={`${product.name} product`}
                 src={product.image_url}
@@ -108,7 +108,7 @@ const ProductCard_antd = ({ product }) => {
           ></Card>
           {/* Add description make product cards not even */}
           <Card.Meta
-            style={{ textAlign: "center" }}
+            style={{ textAlign: 'center' }}
             title={<h2>{product.name}</h2>}
             // description={product.description}
           />
@@ -117,37 +117,23 @@ const ProductCard_antd = ({ product }) => {
         </Link>
         <p
           style={{
-            lineHeight: "28px",
-            fontWeight: "lighter",
-            fontSize: "33px",
-            color: "#2ecc71",
-            textAlign: "center",
+            lineHeight: '28px',
+            fontWeight: 'lighter',
+            fontSize: '33px',
+            color: '#2ecc71',
+            textAlign: 'center',
           }}
         >
           ${product.price}
         </p>
-        <Row
-          gutter={[10]}
-          className="add-cart-btn-row"
-          style={{ justifyContent: "center" }}
-        >
+        <Row gutter={[10]} className="add-cart-btn-row" style={{ justifyContent: 'center' }}>
           <Col>
-            <Button
-              title="Add item to cart"
-              onClick={handleAddToCartClick}
-              type="primary"
-            >
+            <Button title="Add item to cart" onClick={handleAddToCartClick} type="primary">
               Add to cart
             </Button>
           </Col>
           <Col>
-            <Button
-              title="Remove item from cart"
-              disabled={disabled()}
-              onClick={handleRemoveProduct}
-              type="primary"
-              danger
-            >
+            <Button title="Remove item from cart" disabled={disabled()} onClick={handleRemoveProduct} type="primary" danger>
               <DeleteOutlined />
             </Button>
           </Col>

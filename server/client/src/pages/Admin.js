@@ -1,22 +1,13 @@
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import LayoutHelmet from "../layout/LayoutHelmet";
+import LayoutHelmet from '../layout/LayoutHelmet';
 
-import { AlertCircle } from "react-feather";
-import { Button as ButtonAntd } from "antd";
+import { AlertCircle } from 'react-feather';
+import { Button as ButtonAntd } from 'antd';
 
-import {
-  TableContainer,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableCell,
-  TableFooter,
-  Button,
-} from "@windmill/react-ui";
+import { TableContainer, Table, TableHeader, TableBody, TableRow, TableCell, TableFooter, Button } from '@windmill/react-ui';
 
 import {
   selectCurrentUser,
@@ -26,11 +17,11 @@ import {
   selectDeleteUserStatus,
   selectAllUserStatus,
   selectCurrentUserStatus,
-} from "../features/users/usersSlice";
+} from '../features/users/usersSlice';
 
-import AdminForm from "../components/admin/Adminform";
-import AdminFormAntd from "../components/admin/Adminform_antd";
-import { ConsoleSqlOutlined } from "@ant-design/icons";
+import AdminForm from '../components/admin/Adminform';
+import AdminFormAntd from '../components/admin/Adminform_antd';
+import { ConsoleSqlOutlined } from '@ant-design/icons';
 const Admin = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -49,11 +40,11 @@ const Admin = () => {
   }, [dispatch, deleteStatus]);
 
   useEffect(() => {
-    if (allUserStatus === "succeeded") {
+    if (allUserStatus === 'succeeded') {
       setData(
         Object.keys(allUsers)
-          .map((keyName) => allUsers[keyName])
-          .map((row) => ({
+          .map(keyName => allUsers[keyName])
+          .map(row => ({
             key: row.id,
             id: row.id,
             email: row.email,
@@ -67,7 +58,7 @@ const Admin = () => {
   }, [allUserStatus]);
 
   const handleDashboardClick = () => {
-    history.push("/");
+    history.push('/');
   };
 
   // useEffect(() => {
@@ -95,12 +86,12 @@ const Admin = () => {
   // }));
 
   const handleClick = () => {
-    console.log(Object.keys(allUsers).map((keyName) => allUsers[keyName]));
+    console.log(Object.keys(allUsers).map(keyName => allUsers[keyName]));
     setData(
       // new Date(row.date_joined).toDateString()
       Object.keys(allUsers)
-        .map((keyName) => allUsers[keyName])
-        .map((row) => ({
+        .map(keyName => allUsers[keyName])
+        .map(row => ({
           key: row.id,
           id: row.id,
           email: row.email,
@@ -112,23 +103,15 @@ const Admin = () => {
     );
   };
 
-  if (currentUser.user_role === "admin") {
+  if (currentUser.user_role === 'admin') {
     return (
       <>
-        <LayoutHelmet loading={allUserStatus !== "succeeded"}>
+        <LayoutHelmet loading={allUserStatus !== 'succeeded'}>
           <h1 className="my-10 text-center text-4xl font-semibold">Users</h1>
-          <button
-            className="my-2 text-center font-semibold"
-            onClick={handleClick}
-          >
+          <button className="my-2 text-center font-semibold" onClick={handleClick}>
             Click here to refresh Table
           </button>
-          {allUserStatus === "succeeded" ? (
-            <AdminFormAntd
-              dataSource={data}
-              currentUser={currentUser}
-            ></AdminFormAntd>
-          ) : null}
+          {allUserStatus === 'succeeded' ? <AdminFormAntd dataSource={data} currentUser={currentUser}></AdminFormAntd> : null}
         </LayoutHelmet>
       </>
     );
@@ -136,13 +119,8 @@ const Admin = () => {
     return (
       <LayoutHelmet>
         <div className="flex flex-col items-center">
-          <AlertCircle
-            className="w-12 h-12 mt-8 text-purple-200"
-            color="green"
-          />
-          <h1 className="text-6xl font-semibold text-gray-700 dark:text-gray-200">
-            Sorry
-          </h1>
+          <AlertCircle className="w-12 h-12 mt-8 text-purple-200" color="green" />
+          <h1 className="text-6xl font-semibold text-gray-700 dark:text-gray-200">Sorry</h1>
           <p className="text-gray-700 dark:text-gray-300">
             Only Admin is allowed to access this page
             <br />

@@ -1,22 +1,10 @@
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchCurrentUser,
-  isLoggedInUpdated,
-  selectCurrentUser,
-  selectCurrentUserStatus,
-} from "../features/users/usersSlice";
-import {
-  selectNeedsCheckoutRedirect,
-  needsCheckoutRedirectUpdated,
-  selectFetchCurrentCartStatus,
-} from "../features/cart/cartSlice";
-import {
-  fetchAllProducts,
-  selectFetchAllProductsStatus,
-} from "../features/products/productsSlice";
-import { selectCart, fetchCurrentCart } from "../features/cart/cartSlice";
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCurrentUser, isLoggedInUpdated, selectCurrentUser, selectCurrentUserStatus } from '../features/users/usersSlice';
+import { selectNeedsCheckoutRedirect, needsCheckoutRedirectUpdated, selectFetchCurrentCartStatus } from '../features/cart/cartSlice';
+import { fetchAllProducts, selectFetchAllProductsStatus } from '../features/products/productsSlice';
+import { selectCart, fetchCurrentCart } from '../features/cart/cartSlice';
 
 const SocialApiLogin = () => {
   const dispatch = useDispatch();
@@ -29,11 +17,11 @@ const SocialApiLogin = () => {
   const fetchAllProductsStatus = useSelector(selectFetchAllProductsStatus);
   const fetchCurrentCartStatus = useSelector(selectFetchCurrentCartStatus);
 
-  const [loginMsg, setLoginMsg] = useState("");
+  const [loginMsg, setLoginMsg] = useState('');
 
   //Get user data to redux store after signing in with Google
   useEffect(() => {
-    if (userStatus === "idle") {
+    if (userStatus === 'idle') {
       dispatch(fetchCurrentUser());
       dispatch(fetchCurrentCart(cartContents));
       // dispatch(fetchCustomerOrders())
@@ -42,34 +30,32 @@ const SocialApiLogin = () => {
   }, [userStatus, dispatch, history, cartContents]);
 
   useEffect(() => {
-    if (userStatus === "failed") {
-      setLoginMsg("An error occurred logging in using Google.");
+    if (userStatus === 'failed') {
+      setLoginMsg('An error occurred logging in using Google.');
     }
   }, [userStatus]);
 
   //Ask for address if not in the database, otherwise redirect to main site
   useEffect(() => {
     if (
-      userStatus === "succeeded" &&
-      fetchAllProductsStatus === "succeeded" &&
-      fetchCurrentCartStatus === "succeeded"
+      userStatus === 'succeeded' &&
+      fetchAllProductsStatus === 'succeeded' &&
+      fetchCurrentCartStatus === 'succeeded'
       // && fetchCustomerOrdersStatus === "succeeded"
     ) {
       dispatch(isLoggedInUpdated(true));
       if (user.address1) {
         //Check if we need to redirect back to checkout process
-        history.push("/");
+        history.push('/');
       } else {
-        history.push("/social-login/user-register");
+        history.push('/social-login/user-register');
       }
     }
   });
 
   return (
     <div>
-      <p className="text-gray-700 font-medium text-base text-center">
-        {loginMsg}
-      </p>
+      <p className="text-gray-700 font-medium text-base text-center">{loginMsg}</p>
     </div>
   );
 };

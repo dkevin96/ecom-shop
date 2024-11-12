@@ -1,25 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
-import LayoutHelmet from "../layout/LayoutHelmet";
-import {
-  selectCustomerOrders,
-  fetchCustomerOrders,
-  selectFetchCustomerOrdersStatus,
-} from "../features/orders/ordersSlice";
-import OrderItems from "../components/orders/OrderItem";
+import LayoutHelmet from '../layout/LayoutHelmet';
+import { selectCustomerOrders, fetchCustomerOrders, selectFetchCustomerOrdersStatus } from '../features/orders/ordersSlice';
+import OrderItems from '../components/orders/OrderItem';
 
-import {
-  Pagination,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableFooter,
-  TableHeader,
-  TableRow,
-} from "@windmill/react-ui";
+import { Pagination, Table, TableBody, TableCell, TableContainer, TableFooter, TableHeader, TableRow } from '@windmill/react-ui';
 
 const Orders = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,11 +20,11 @@ const Orders = () => {
     dispatch(fetchCustomerOrders());
   }, [dispatch]);
 
-  const handlePage = (num) => {
+  const handlePage = num => {
     setCurrentPage(num);
   };
 
-  const goToDetails = (orderNr) => {
+  const goToDetails = orderNr => {
     history.push({
       pathname: `orders/${orderNr}`,
       state: { orderNr: true },
@@ -67,7 +54,7 @@ const Orders = () => {
     );
   } else {
     return (
-      <LayoutHelmet loading={fetchOrdersStatus !== "succeeded"}>
+      <LayoutHelmet loading={fetchOrdersStatus !== 'succeeded'}>
         <h1 className="my-10 text-center text-4xl font-semibold">Orders</h1>
         <button onClick={onclick}>click</button>
         <TableContainer>
@@ -82,28 +69,15 @@ const Orders = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {Object.keys(orders).map((orderNr) => (
-                <TableRow
-                  className="cursor-pointer"
-                  onClick={() => goToDetails(orderNr)}
-                  key={orderNr}
-                >
-                  <OrderItems
-                    key={orderNr}
-                    order={orders[orderNr]}
-                    orderNr={orderNr}
-                  />
+              {Object.keys(orders).map(orderNr => (
+                <TableRow className="cursor-pointer" onClick={() => goToDetails(orderNr)} key={orderNr}>
+                  <OrderItems key={orderNr} order={orders[orderNr]} orderNr={orderNr} />
                 </TableRow>
               ))}
             </TableBody>
           </Table>
           <TableFooter>
-            <Pagination
-              totalResults={Object.keys(orders).length}
-              resultsPerPage={2}
-              onChange={handlePage}
-              label="Table navigation"
-            />
+            <Pagination totalResults={Object.keys(orders).length} resultsPerPage={2} onChange={handlePage} label="Table navigation" />
           </TableFooter>
         </TableContainer>
       </LayoutHelmet>

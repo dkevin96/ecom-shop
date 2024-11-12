@@ -2,28 +2,18 @@
  * authService : encrpyt password and return the hash
  * usersService: interact with user database and return the require object
  * cartService: interact with cart database and return the require object  */
-const { authService, usersService, cartsService } = require("../services");
+const { authService, usersService, cartsService } = require('../services');
 const { getPwdHash } = authService;
 const { createUser, fetchUserByEmail } = usersService;
 const { createCart } = cartsService;
 
-const passport = require("passport");
-const jwt = require("jsonwebtoken");
-const { validationResult } = require("express-validator");
-const isProduction = process.env.NODE_ENV === "production";
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
+const { validationResult } = require('express-validator');
+const isProduction = process.env.NODE_ENV === 'production';
 
 const signupUser = async (req, res, next) => {
-  const {
-    email,
-    password,
-    first_name,
-    last_name,
-    address1,
-    address2,
-    postcode,
-    city,
-    country,
-  } = req.body;
+  const { email, password, first_name, last_name, address1, address2, postcode, city, country } = req.body;
   //Check if active user with this email exists
   const userDb = await fetchUserByEmail(email);
 
@@ -49,7 +39,7 @@ const signupUser = async (req, res, next) => {
     city,
     country,
     pwd_hash,
-    user_role: "admin",
+    user_role: 'admin',
   };
   const newUser = await createUser(user);
   const newCart = await createCart(newUser.id);
@@ -64,13 +54,13 @@ const loginUser = async (req, res, next) => {
     return res.status(422).json({ errors: errors.array() });
   }
   // Not error then authenticate
-  passport.authenticate("login", async (err, user, info) => {
+  passport.authenticate('login', async (err, user, info) => {
     if (err || !user) {
       // send error message ( config in passportjs) to Frontend
       const error = new Error(info.message);
       return next(error);
     }
-    req.login(user, { session: false }, async (error) => {
+    req.login(user, { session: false }, async error => {
       if (error) return next(error);
       const body = {
         id: user.id,
@@ -79,13 +69,13 @@ const loginUser = async (req, res, next) => {
         role: user.user_role,
       };
       const token = jwt.sign({ user: body }, process.env.JWT_KEY);
-      res.cookie("A_JWT", token, {
+      res.cookie('A_JWT', token, {
         maxAge: 1000 * 60 * 60 * 24 * 1000,
         httpOnly: true,
-        sameSite: isProduction ? "none" : "lax",
+        sameSite: isProduction ? 'none' : 'lax',
         secure: isProduction ? true : false,
       });
-      return res.status(200).send({ message: "Login successful" });
+      return res.status(200).send({ message: 'Login successful' });
       // alternative
       // res.status(200)
       // res.send('') res send will send res.cookie and res.status
@@ -102,22 +92,16 @@ const loginGoogle = async (req, res, next) => {
     role: user.user_role,
   };
   const token = jwt.sign({ user: body }, process.env.JWT_KEY);
-  res.cookie("A_JWT", token, {
+  res.cookie('A_JWT', token, {
     maxAge: 1000 * 60 * 60 * 24 * 1000,
     httpOnly: true,
-    sameSite: isProduction ? "none" : "lax",
+    sameSite: isProduction ? 'none' : 'lax',
     secure: isProduction ? true : false,
   });
 
   // Redirect to FE page. User with the email from google is already create in passport js google straergy.
   // This function is called when google has finish validate user ( see routes/index.js)
-  return res
-    .status(200)
-    .redirect(
-      isProduction
-        ? process.env.GOOGLE_FRONT_END_REDIRECT_URL
-        : "http://localhost:3000/google-login"
-    );
+  return res.status(200).redirect(isProduction ? process.env.GOOGLE_FRONT_END_REDIRECT_URL : 'http://localhost:3000/google-login');
 };
 
 const loginFacebook = async (req, res, next) => {
@@ -129,26 +113,20 @@ const loginFacebook = async (req, res, next) => {
     role: user.user_role,
   };
   const token = jwt.sign({ user: body }, process.env.JWT_KEY);
-  res.cookie("A_JWT", token, {
+  res.cookie('A_JWT', token, {
     maxAge: 1000 * 60 * 60 * 24 * 1000,
     httpOnly: true,
-    sameSite: isProduction ? "none" : "lax",
+    sameSite: isProduction ? 'none' : 'lax',
     secure: isProduction ? true : false,
   });
 
   // Redirect to FE page. User with the email from google is already create in passport js google straergy.
   // This function is called when google has finish validate user ( see routes/index.js)
-  return res
-    .status(200)
-    .redirect(
-      isProduction
-        ? process.env.FACEBOOK_FRONT_END_REDIRECT_URL
-        : "http://localhost:3000/facebook-login"
-    );
+  return res.status(200).redirect(isProduction ? process.env.FACEBOOK_FRONT_END_REDIRECT_URL : 'http://localhost:3000/facebook-login');
 };
 
 const logoutUser = (req, res, next) => {
-  res.clearCookie("A_JWT");
+  res.clearCookie('A_JWT');
   res.status(200).send();
   next();
 };
