@@ -156,6 +156,11 @@ const Login = () => {
           <div className="w-full max-w-lg">
             <div className="leading-loose">
               <h1 style={{ textAlign: 'center' }}>Sign in required</h1>
+              <p className="text-sm text-center text-gray-500">
+                You can log in using the following credentials: <br />
+                Email: admin@mail.com <br />
+                Password: password
+              </p>
               <a href="https://www.freepik.com/vectors/computer"></a>
               {showFailedLogin ? (
                 <p className="text-sm text-center" style={{ color: 'red' }}>
