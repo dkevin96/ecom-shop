@@ -78,8 +78,8 @@ const Login = () => {
   //   selectFetchCustomerOrdersStatus
   // );
 
-  const googleURL = "/api/auth/google";
-  const facebookURL = "/api/auth/facebook";
+  // const googleURL = "/api/auth/google";
+  // const facebookURL = "/api/auth/facebook";
 
   const onFinish = async (data) => {
     try {
@@ -176,7 +176,7 @@ const Login = () => {
                 className="max-w-sm p-10 m-auto bg-gray-200 bg-opacity-50 rounded shadow-xl"
                 style={{ textAlign: "center" }}
               >
-                <div className="flex gap-4 item-center">
+                {/* <div className="flex gap-4 item-center">
                   <a href={facebookURL}>
                     <button
                       type="button"
@@ -214,7 +214,7 @@ const Login = () => {
                       Google
                     </button>
                   </a>
-                </div>
+                </div> */}
                 <Form
                   // style={{ width: "80%", textAlign: "center" }}
                   name="basic"

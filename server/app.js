@@ -48,19 +48,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
-// const io = require("socket.io")(server, { cors: {} });
-
-// const wrap = (middleware) => (socket, next) =>
-//   middleware(socket.request, {}, next);
-// io.use(wrap(passport.initialize()));
-
-// io.on("connection", (socket) => {
-//   console.log("a user connected");
-//   socket.on("disconnect", () => {
-//     console.log("user disconnected");
-//   });
-// });
-
 app.listen(config.port, () =>
   console.log(`Server listening on port ${config.port}`)
 );

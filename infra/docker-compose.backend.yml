@@ -1,0 +1,18 @@
+services:
+  backend:
+    build:
+      context: ../
+      dockerfile: infra/docker/backend/Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../server:/app
+      - /app/node_modules
+    # depends_on:
+    #   - db
+    networks:
+      - ecom
+      
+networks:
+  ecom:
+    driver: bridge

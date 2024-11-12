@@ -23,7 +23,7 @@ const syncCartSelf = async (req, res, next) => {
 
   const dbCart = await fetchCartById(userId);
   const loggedOutCart = req.body.cart;
-
+  console.log(loggedOutCart);
   for (const productId in loggedOutCart) {
     // if not found dbcart.some return false
     if (!dbCart.some((item) => item.product.id == productId)) {

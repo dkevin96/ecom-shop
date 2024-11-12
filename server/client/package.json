@@ -2,7 +2,6 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "@craco/craco": "^6.1.2",
@@ -14,9 +13,6 @@
     "@reduxjs/toolkit": "^1.5.0",
     "@stripe/react-stripe-js": "^1.4.0",
     "@stripe/stripe-js": "^1.13.1",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^13.0.16",
     "@windmill/react-ui": "^0.6.0",
     "antd": "^4.16.1",
     "axios": "^0.21.1",
@@ -38,17 +34,14 @@
     "react-spinners": "^0.11.0",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
-    "socket.io-client": "^4.1.2",
     "stripe": "^8.154.0",
-    "web-vitals": "^1.0.1",
     "@tailwindcss/postcss7-compat": "^2.0.4",
     "autoprefixer": "^9",
     "postcss": "^7",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.2"
   },
-  
   "scripts": {
-    "start": "craco start",
+    "start": "CHOKIDAR_USEPOLLING=true craco start",
     "build": "craco build",
     "build:css": "tailwindcss build src/index.css ",
     "test": "craco test",
@@ -61,23 +54,23 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.0.4",
     "autoprefixer": "^9",
     "postcss": "^7",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.2"
   },
-  "cracoConfig": "craco.config.js"
+  "cracoConfig": "craco.config.js",
+  "overrides": {
+    "caniuse-lite": "1.0.30001632"
+  },
+  "resolutions": {
+    "caniuse-lite": "1.0.30001632"
+  }
 }

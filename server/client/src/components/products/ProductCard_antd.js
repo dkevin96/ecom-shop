@@ -94,9 +94,13 @@ const ProductCard_antd = ({ product }) => {
             style={{ padding: 10 }}
             cover={
               <img
-                height="320px"
-                width="280px"
-                alt="image"
+                style={{
+                  height: "320px",
+                  width: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center"
+                }}
+                alt={`${product.name} product`}
                 src={product.image_url}
               />
             }
