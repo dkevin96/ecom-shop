@@ -39,19 +39,19 @@ services:
       - NODE_ENV=development
     volumes:
       - type: bind
-        source: "../server/client/craco.config.js"
+        source: "../client/craco.config.js"
         target: "/app/craco.config.js"
 
       - type: bind
-        source: "../server/client/tailwind.config.js"
+        source: "../client/tailwind.config.js"
         target: "/app/tailwind.config.js"
 
       - type: bind
-        source: "../server/client/src"
+        source: "../client/src"
         target: "/app/src"
 
       - type: bind
-        source: "../server/client/public"
+        source: "../client/public"
         target: "/app/public"
     command: npm run start
     depends_on:
