@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "engines": {
-    "node": "14.16.0",
-    "npm": "6.14.11"
-  },
   "scripts": {
     "start": "nodemon --legacy-watch",
     "test": "echo \"Error: no test specified\" && exit 1",
