@@ -24,8 +24,8 @@ services:
       - ../server:/app
       - /app/node_modules
     command: npm run start
-    depends_on:
-      - ecom-db
+    # depends_on:
+    #   - ecom-db
     networks:
       - ecom
 
