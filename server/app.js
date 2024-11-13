@@ -35,17 +35,4 @@ app.use((error, req, res, next) => {
   });
 });
 
-// view engine setup
-// app.use(express.static(path.join(__dirname, "./client/build")));
-if (process.env.NODE_ENV === 'production') {
-  // only use in development
-  app.use(express.static(path.join(__dirname, './client/build')));
-}
-
-// redirect all route not writen in routes.js to index.html
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './client/build/index.html'));
-});
-
 app.listen(config.port, () => console.log(`Server listening on port ${config.port}`));
