@@ -1,41 +1,41 @@
-import logo from './logo.svg';
+import logo from "./logo.svg";
 // import "./App.less";
 
-import { Layout } from 'antd';
-import { useEffect, Suspense } from 'react';
-import Nav from './components/nav/Nav';
-import NavTailwind from './components/nav/NavTailwind';
-import AppFooter from './components/Footer';
-import Register from './components/login/Register';
-import Login from './components/login/Login';
-import ProtectedRoute from './components/ProtectedRoute';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { Layout } from "antd";
+import { useEffect, Suspense } from "react";
+import Nav from "./components/nav/Nav";
+import NavTailwind from "./components/nav/NavTailwind";
+import AppFooter from "./components/Footer";
+import Register from "./components/login/Register";
+import Login from "./components/login/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
-import LayoutHelmet from './layout/LayoutHelmet';
-import ProductList from './components/products/ProductList';
-import ProductDetail from './components/products/ProductDetail';
-import Spinner from './components/spinner/Spinner';
+import LayoutHelmet from "./layout/LayoutHelmet";
+import ProductList from "./components/products/ProductList";
+import ProductDetail from "./components/products/ProductDetail";
+import Spinner from "./components/spinner/Spinner";
 
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
-import Cart from './pages/Cart';
-import Account from './pages/Account';
-import Admin from './pages/Admin';
-import CheckOut from './pages/CheckOut';
-import CheckOutDone from './pages/CheckOutDone';
-import Orders from './pages/Orders';
-import OrderDetail from './pages/OrderDetail';
+import Cart from "./pages/Cart";
+import Account from "./pages/Account";
+import Admin from "./pages/Admin";
+import CheckOut from "./pages/CheckOut";
+import CheckOutDone from "./pages/CheckOutDone";
+import Orders from "./pages/Orders";
+import OrderDetail from "./pages/OrderDetail";
 
-import SocialApiLogin from './pages/SocialApiLogin';
-import SocialUserRegister from './pages/SocialUserRegister';
+import SocialApiLogin from "./pages/SocialApiLogin";
+import SocialUserRegister from "./pages/SocialUserRegister";
 // import FacebookLogin from "./pages/GoogleLogin";
 // import FacebookUserRegister from "./pages/GoogleUserRegister";
 
-import { fetchAllProducts } from './features/products/productsSlice';
-import { selectIsLoggedIn, fetchAllUser } from './features/users/usersSlice';
-import { selectCustomerOrders, fetchCustomerOrders } from './features/orders/ordersSlice';
+import { fetchAllProducts } from "./features/products/productsSlice";
+import { selectIsLoggedIn, fetchAllUser } from "./features/users/usersSlice";
+import { selectCustomerOrders, fetchCustomerOrders } from "./features/orders/ordersSlice";
 
 const { Header, Content, Footer } = Layout;
 // Cart is from pages, not from component because i decide to restructure
@@ -43,7 +43,7 @@ const { Header, Content, Footer } = Layout;
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // loadStripe is initialized with your real test publishable API key.
-const promise = loadStripe('pk_test_2Jzc9BD0pnA9IGXZ6mYloPgW00zGp6iRbA');
+const promise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY || "pk_test_2Jzc9BD0pnA9IGXZ6mYloPgW00zGp6iRbA");
 
 const App = () => {
   const dispatch = useDispatch();
