@@ -24,8 +24,8 @@ services:
       - ../server:/app
       - /app/node_modules
     command: npm run start
-    # depends_on:
-    #   - ecom-db
+    depends_on:
+      - ecom-db
     networks:
       - ecom
 
@@ -53,6 +53,10 @@ services:
       - type: bind
         source: "../client/public"
         target: "/app/public"
+
+      - type: bind
+        source: "../client/.env"
+        target: "/app/.env"
     command: npm run start
     depends_on:
       - ecom-backend

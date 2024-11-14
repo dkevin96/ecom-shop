@@ -14,7 +14,15 @@ const cookieSession = require('cookie-session');
 const app = require('express')();
 // const server = require("http").createServer(app);
 
-app.use(cors({ origin: true, credentials: true })); //allow cross-origin resource sharing FROM origin ONLY, and accept credentials
+app.use(
+  cors({
+    origin: [process.env.CLIENT_URL, 'http://localhost:3000', 'http://host.docker.internal:3000'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  })
+);
+
+app.options('*', cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
