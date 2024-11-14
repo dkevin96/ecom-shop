@@ -26,6 +26,11 @@ const putUserSelf = async (req, res, next) => {
 
   const pwd_hash = await getPwdHash(password);
 
+  if (email === 'admin@mail.com') {
+    const error = new Error('Cannot modify default admin user');
+    return next(error);
+  }
+
   const user = {
     id,
     email,

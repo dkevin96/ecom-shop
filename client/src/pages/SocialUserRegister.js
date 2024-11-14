@@ -78,9 +78,12 @@ const SocialUserRegister = () => {
     } catch (err) {
       if (err.response) {
         console.log(err.response.data);
-        setErrorMsg(err.response.data);
+        setErrorMsg(err.response.data.error);
+        toast.error(err.response.data.error);
       } else if (err.request) {
         console.log(err.request.data);
+        setErrorMsg(err.response.data.error);
+        toast.error(err.response.data.error);
       } else {
         console.log('An error occured while editing account.');
       }
