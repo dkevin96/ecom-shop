@@ -9,7 +9,7 @@ const LayoutHelmet = ({ children, title, loading }) => {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>{title || 'Home'} | Bolt</title>
+        <title>Bolt Store</title>
         <meta name="description" content="Store built with React, Redux, Node, Express and Postgres" />
         <meta name="robots" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <link rel="canonical" href="https://localhost:3000" />

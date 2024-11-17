@@ -1,6 +1,3 @@
-import logo from "./logo.svg";
-// import "./App.less";
-
 import { Layout } from "antd";
 import { useEffect, Suspense } from "react";
 import Nav from "./components/nav/Nav";
