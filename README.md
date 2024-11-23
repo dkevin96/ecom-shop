@@ -3,35 +3,11 @@
 
 A small full-stack e-commerce project built with Postgres, Express, React and Node.
 
-## [Click here to try out the current live version](https://bolt-store-deploy.herokuapp.com/)
+[Click here to try out the current live version](https://ducphan-bolt-shop.vercel.app/)
 
-<!-- TABLE OF CONTENTS -->
 
-## :ledger: Index
+## Features
 
-<details open="open">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#beginner-features">Features</a>
-    </li>
-    <li>
-     <a href="#hammer-built-with">Built With</a>
-    </li>
-    <li>
-      <a href="#zap-getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#notebook-pre-requisites">Pre-Requisites</a></li>
-      </ul>
-          <ul>
-        <li><a href="#electric_plug-installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#fire-contributing">Contributing</a></li>
-  </ol>
-</details>
-
-## :beginner: Features
 - **User can Login with normal email/password or using Oath2**
  <img src="./media/login.png">
 
@@ -50,52 +26,6 @@ A small full-stack e-commerce project built with Postgres, Express, React and No
 - **All orders are saved**
   <img src="./media/orders.png"> 
 
-## :hammer: Built With
-Postgres, Express, React and Node
-
-<!-- GETTING STARTED -->
-
-## :zap: Getting Started
-
-### Prequesites 
-
-### :notebook: Pre-Requisites
-- **Frontend**
- <img src="./media/frontend.png">
- 
-- **Backend**
-
-  <img src="./media/backend.png">
-
-### :electric_plug: Installation
-
-Clone the project
-
-```bash
-  https://github.com/dkevin96/ecom-shop.git
-```
-
-Go to the project directory
-
-```bash
-  cd ecom-shop
-  cd server 
-  cd server/client
-```
-
-Install dependencies ( in server-, client-directory) 
-
-```bash
-  yarn install
-```
-
-Start the client ( in server-, client-directory) 
-
-```bash
-  yarn run start
-```
-
-docker-compose -f docker-compose.dev.yml up -d
 
 ## Environment Variables
 
